@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+  
+<mapper namespace="Sys_SysKey">  
+  <select id="get" resultType="sysKey" parameterType="string" flushCache="true">  
+    select 
+        key_type,
+        key_Seq,
+        key_pre,
+        key_suf,
+        key_len,
+        key_year,
+        key_month
+    from sys_key with(TABLOCKX) where key_Type= '${value}'
+  </select>  
+  
+  <update id="update" parameterType="sysKey">
+    update sys_key 
+    set key_Seq = #{keySeq},
+        key_pre = #{keyPre},
+        key_suf = #{keySuf},
+        key_len = #{keyLen},
+        key_year = #{keyYear},
+        key_month = #{keyMonth} 
+    where key_type =#{keyType}
+  </update>
+  
+  <select id="getByYearMonth"  resultType="sysKey" parameterType="map">
+    select * from sys_key
+    <where>
+       <if test="keyType!=null and keyType!=''">
+           and Key_Type = #{keyType}
+       </if>
+       <if test="keyYear!=null and keyYear!=''">
+           and Key_Year = #{keyYear}
+       </if>
+       <if test="keyMonth!=null and keyMonth!=''">
+           and Key_Month = #{keyMonth}
+       </if>
+    </where>
+  </select>
+  
+   <update id="updateKeySeqByYearMonth" parameterType="sysKey">
+      UPDATE Sys_Key 
+      set key_Seq = #{keySeq},
+          key_pre = #{keyPre},
+          key_suf = #{keySuf},
+          key_len = #{keyLen},
+          key_year = #{keyYear},
+          key_month = #{keyMonth} 
+      where key_type =#{keyType}
+    </update>
+</mapper> 

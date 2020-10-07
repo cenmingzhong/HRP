@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="KPI_workload_type">
+     <select id="getListForRefer" resultType="map" parameterType="map">
+		select id,grade,Is_End,name,parent,year
+		from KPI_workload_type
+		<where>
+			<if test="isEnd != null and isEnd == true">
+				and Is_End = 1
+			</if>
+			<if test="nameInfo != null and nameInfo != ''">
+				and name like '%${nameInfo}%'
+			</if>
+			<if test="parent != null and parent != ''">
+				and parent = #{parent}
+			</if>
+			<if test="year != null and year != ''">
+				and year = #{year}
+			</if>
+		</where>
+	</select>
+</mapper>

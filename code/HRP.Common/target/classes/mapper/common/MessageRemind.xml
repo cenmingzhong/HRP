@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="Sys_MessageRemind">
+     <!-- 删除 -->
+    <delete id="deleteByVouchCode"  parameterType="map">
+      DELETE FROM
+        Sys_Message_Remind
+       <where>
+          <if test="vouchCode != null and vouchCode !=''">
+            and Vouch_Code=#{vouchCode}
+          </if>
+          <if test="messageName != null and messageName !=''">
+            and Message_Name=#{messageName}
+          </if>
+          <if test="createTime != null and createTime !=''">
+            and Deal_Time is null and convert(char(10),Create_Time,120) =convert(char(10),#{createTime},120)
+          </if>
+       
+       </where>
+        
+    </delete>
+
+</mapper>

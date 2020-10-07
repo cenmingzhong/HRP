@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="RoleMenu">  
+
+     <!---获取角色模块菜单列表-->
+    <select id="getRoleModuleMenuList" resultType="map" parameterType="map">
+      select 
+        roleMenu.Sys_Role_Code,
+        roleMenu.Sys_Menu_Code,
+        menu.Sys_Menu_Name,
+        Case When menu.Sys_Menu_Type ='menu' and menu.Sys_Menu_Level =1 then menu.Sys_Menu_Module else menu.Sys_Menu_Parent end as Sys_Menu_Parent,
+        menu.Sys_Menu_Url
+      from Sys_Role_Menu roleMenu
+      left join sys_menu menu 
+        on roleMenu.Sys_Menu_Code = menu.Sys_Menu_Code
+      where Sys_Role_Code = #{sysRoleCode}
+    </select> 
+    
+    <select id="getOneRoleMenu" resultType="roleMenu" parameterType="map"> 
+        select 
+          Id,
+          Sys_Role_Code,
+          Sys_Menu_Code
+        from Sys_Role_Menu 
+        where Sys_Role_Code =#{sysRoleCode} and  Sys_Menu_Code = #{sysMenuCode}
+    </select>
+    <delete id="deleteByMenuCode" parameterType="string">
+        delete from Sys_Role_Menu where Sys_Menu_Code = #{sysUserCode}
+    </delete>
+
+    <!---获取角色模块列表-->
+    <select id="getRoleModuleList" resultType="sysMenu" parameterType="map">
+        select 
+            ${@com.gzhh.hrp.tools.ClassTools@getTableColumn('menu','sysMenu')}
+        from Sys_Menu menu
+        where menu.Sys_Menu_Type = 'module'
+        <if test="sysRoleCode!=null and sysRoleCode!=''">
+            and menu.Sys_Menu_Code in (
+                select Sys_Menu_Code
+                from sys_role_menu
+                where Sys_Role_Code in('${sysRoleCode}')
+            )
+        </if>
+        order by sys_menu_order
+    </select>
+    
+    <!---获取角色菜单列表-->
+    <select id="getRoleMenuList" resultType="sysMenu" parameterType="map">
+        select 
+            ${@com.gzhh.hrp.tools.ClassTools@getTableColumn('menu','sysMenu')}
+        from Sys_Menu menu
+        where menu.Sys_Menu_Type = 'menu'
+        and menu.Sys_Menu_Module= #{sysMenuCode} 
+        <if test="sysRoleCode!=null and sysRoleCode!=''">
+            and menu.Sys_Menu_Code in (
+                select Sys_Menu_Code
+                from sys_role_menu
+                where Sys_Role_Code in('${sysRoleCode}')
+            )
+        </if>
+        order by sys_menu_level,sys_menu_order
+    </select>
+</mapper> 

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="SysUser"> 
+	<resultMap type="com.gzhh.hrp.common.entity.SysUser" id="resultMap">
+		<id column="Sys_User_Code" property="sysUserCode" />
+		<result column="Sys_User_Name" property="sysUserName" />
+		<result column="Sys_User_Account" property="sysUserAccount" />
+		<result column="Sys_User_Password" property="sysUserPassword" />
+		<result column="Sys_User_Desc" property="sysUserDesc" />
+		<result column="Sys_Dept_Code" property="sysDeptCode" />
+		<result column="Sys_Dept_Name" property="sysDeptName" />
+		<result column="Sys_User_Phone" property="sysUserPhone" />
+		<result column="Sys_User_Status" property="sysUserStatus" />
+		<result column="Sys_User_Email" property="sysUserEmail" />
+		<result column="Sys_User_Sex" property="sysUserSex" />
+		<result column="Sys_Role_Code" property="sysRoleCode" />
+		<result column="Creator" property="creator" />
+		<result column="Create_Time" property="createTime" />
+		<result column="Editor" property="editor" />
+	</resultMap>
+
+    <select id="getList" resultType="map" parameterType="map" resultSetType="SCROLL_INSENSITIVE">
+     select 
+        su.sys_user_code,
+        su.sys_user_name,
+        su.sys_user_account,
+        <!-- su.sys_user_password, -->
+
+        su.sys_user_desc,
+        su.sys_dept_code,
+        su.sys_dept_name,
+        su.sys_Role_Code,
+        su.sys_user_phone,
+        su.sys_user_email,
+        su.sys_dept_name,
+        su.sys_user_status,
+        su.create_time,
+        sr.Sys_Role_Name
+      from  Sys_User  su 
+left join Sys_Role sr on su.Sys_Role_Code=sr.Sys_Role_Code 
+      <where>
+          <if test="sysUserAccount != null and sysUserAccount != ''">  
+              and su.sys_user_account=#{sysUserAccount}
+          </if> 
+          <if test="sysUserCode!=null and sysUserCode!=''">
+              and  su.SYS_USER_CODE= #{sysUserCode}
+          </if>
+          <if test="sysUserName!=null and sysUserName!=''">
+              and  su.SYS_USER_NAME like '%${sysUserName}%'
+          </if>
+          <if test="sysRoleCode!=null and sysRoleCode!=''">
+              and   su.Sys_Role_Code= #{sysRoleCode}
+          </if>
+          <if test="sysDeptInfo != null and sysDeptInfo != ''">
+              and (su.sys_dept_code = '${sysDeptInfo}' or su.sys_dept_name like '%${sysDeptInfo}%')
+          </if>
+		  <if test="sysDeptCode != null and sysDeptCode != ''">
+              and su.sys_dept_code = '${sysDeptCode}'
+          </if>
+		  <if test="sysDeptName != null and sysDeptName != ''">
+              and su.sys_dept_Name like '%${sysDeptName}%'
+          </if>
+
+          <if test="sysUserStatus!=null and sysUserStatus!=''">
+          	and  su.SYS_USER_STATUS =#{sysUserStatus}
+          </if>
+          <if test="authFilter != null and authFilter ==true">
+	        and ${@com.gzhh.hrp.common.tools.DataAuthTools@getDataAuth('su.sys_user_code')}
+	      </if>
+          <if test="fileRole != null">
+	        and ${@com.gzhh.hrp.common.tools.DataAuthTools@getFileRole('su.sys_user_code')}
+	      </if>
+          
+      </where>
+      order by sys_dept_code,su.sys_user_status, su.sys_user_account
+    </select>  
+
+    <select id="getInfo" resultType="com.gzhh.hrp.common.entity.SysUser" parameterType="string">
+     select 
+        su.sys_user_code,
+        su.sys_user_name,
+        su.sys_user_account,
+        su.sys_user_password,
+		su.sys_user_sex,
+        su.sys_user_desc,
+        su.sys_dept_code,
+        su.sys_dept_name,
+        su.sys_Role_Code,
+        su.sys_user_phone,
+        su.sys_user_email,
+        su.sys_dept_name,
+        su.sys_user_status,
+        su.Create_Time,
+        su.fileRole,
+        su.Creator,
+        sr.Sys_Role_Name
+      from  Sys_User  su 
+		left join Sys_Role sr on su.Sys_Role_Code=sr.Sys_Role_Code 
+		where su.sys_user_code = #{value}
+    </select>  
+    
+    <select id="getUserCost" resultType="map" parameterType="map" resultSetType="SCROLL_INSENSITIVE">
+     select 
+        su.sys_user_code,
+        su.sys_user_name,
+        su.sys_user_account,
+        su.sys_user_password,
+
+        su.sys_user_desc,
+        su.sys_dept_code,
+        su.sys_dept_name,
+        su.sys_Role_Code,
+        su.sys_user_phone,
+        su.sys_user_email,
+        su.sys_dept_name,
+        su.sys_user_status,
+        su.create_time,
+        sr.Sys_Role_Name
+      from  Sys_User  su 
+left join Sys_Role sr on su.Sys_Role_Code=sr.Sys_Role_Code 
+      <where>
+          <if test="sysUserAccount != null and sysUserAccount != ''">  
+              and su.sys_user_account=#{sysUserAccount}
+          </if> 
+          <if test="sysUserCode!=null and sysUserCode!=''">
+              and  su.SYS_USER_CODE= #{sysUserCode}
+          </if>
+          <if test="sysUserName!=null and sysUserName!=''">
+              and  su.SYS_USER_NAME like '%${sysUserName}%'
+          </if>
+          <if test="sysRoleCode!=null and sysRoleCode!=''">
+              and   su.Sys_Role_Code= #{sysRoleCode}
+          </if>
+          <if test="sysDeptInfo != null and sysDeptInfo != ''">
+              and (su.sys_dept_code = '${sysDeptInfo}' or su.sys_dept_name like '%${sysDeptInfo}%')
+          </if>
+		  <if test="sysDeptCode != null and sysDeptCode != ''">
+              and su.sys_dept_code = '${sysDeptCode}'
+          </if>
+		  <if test="sysDeptName != null and sysDeptName != ''">
+              and su.sys_dept_Name like '%${sysDeptName}%'
+          </if>
+
+          <if test="sysUserStatus!=null and sysUserStatus!=''">
+          and  su.SYS_USER_STATUS =#{sysUserStatus}
+          </if>
+          
+      </where>
+      order by sys_dept_code,su.sys_user_status, su.sys_user_account
+    </select>  
+    
+    <select id="getCount" resultType="int">  
+        select count(1) from #person
+    </select>
+    
+    <delete id="clearUserItem" parameterType="string">
+        delete from BM_User_Item where user_id=#{value}
+    </delete>
+    
+    <select id="getUserCodesByUploadTime" parameterType="date" resultType="string">
+    	SELECT
+			sUser.Sys_User_Code
+		FROM
+			Sys_User sUser
+		LEFT JOIN SYS_User_File userFile ON sUser.Sys_User_Code = userFile.upload_user_code
+		WHERE
+			userFile.upload_time = #{uploadTime}
+    </select>
+</mapper>

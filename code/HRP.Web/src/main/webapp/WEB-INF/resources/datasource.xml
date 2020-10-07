@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DatasourceManager xmlVersion="20140501" releaseVersion="7.1.1">
+    <ConnectionMap>
+        <Connection name="HRP_Report" class="com.fr.data.impl.JDBCDatabaseConnection">
+            <DatabaseAttr/>
+            <JDBCDatabaseAttr url="" driver="com.microsoft.sqlserver.jdbc.SQLServerDriver" user="sa" password="12345678" encryptPassword="false">
+                <DBCPAttr/>
+            </JDBCDatabaseAttr>
+        </Connection>
+    </ConnectionMap>
+</DatasourceManager>

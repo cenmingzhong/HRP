@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="KPI_appointment_target">
+     <select id="getListByOther" resultType="map" parameterType="map">
+		select 
+			appTarget.id,
+			appTarget.appointment_id,
+			appTarget.workload_item_id,
+			appTarget.target,
+			appo.Appointment_Name as appointmentName,
+			wlItem.item_name as itemName
+ 		from KPI_appointment_target appTarget
+ 		left join KPI_Appointment appo on appo.id = appTarget.appointment_id
+ 		left join KPI_workload_item wlItem on wlItem.id = appTarget.workload_item_id
+		<where>
+			<if test="appointmentId != null and appointmentId !=''">
+				and appTarget.appointment_id = #{appointmentId}
+			</if>
+			<if test="workloadItemId != null and workloadItemId !=''">
+				and appTarget.workload_item_id = #{workloadItemId}
+			</if>
+			<if test="year != null and year !=''">
+				and appTarget.year = #{year}
+			</if>
+		</where>
+		order by appTarget.id
+		
+	</select>
+</mapper>

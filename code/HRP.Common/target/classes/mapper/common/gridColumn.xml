@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="Sys_GridColumn">
+  <delete id="deleteByGridId" parameterType="map">
+      DELETE FROM Sys_Grid_Column
+      <where>
+          <if test="pathUrl !=null and pathUrl !=''">
+              and  path_url =#{pathUrl}
+          </if>
+          <if test="gridId !=null and gridId !=''">
+              and  Grid_Id =#{gridId}
+          </if>
+          <if test="sysUserCode !=null and sysUserCode !=''">
+              and sys_user_Code=#{sysUserCode}
+          </if>
+      </where>
+  </delete>
+</mapper>

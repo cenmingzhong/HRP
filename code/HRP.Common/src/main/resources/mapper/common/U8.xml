@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="U8"> 
+    <select id="checkDbName" resultType="int" parameterType="string">
+          select  count(1)  from   master..sysdatabases   where   name=#{value}
+    </select>
+    
+    <select id="getItemClass" resultType="map" parameterType="string">
+        SELECT 
+            i_id,
+            citem_class,
+            citem_name,
+            citem_text,
+            crule,
+            ctable,
+            cClasstable
+            from ${value}..fitem
+    </select>
+    
+    <select id="getSrcDefine" resultType="map" parameterType="string">
+        SELECT 
+            cID,
+            cClass,
+            cItem
+            from ${value}..UserDef where cClass='单据头'
+    </select>
+    
+    <select id="getSignList" resultType="map" parameterType="string">
+        SELECT 
+            i_id,
+            csign,
+            isignseq,
+            ctext,
+            itype 
+        from ${value}..dsign
+    </select>
+    
+    <select id="getSubjList" resultType="map" parameterType="map">
+        <!-- select 
+            c1.ccode,
+            case when c1.igrade=1 then c1.ccode_name 
+                when c1.igrade=2 then c4.ccode_name+'/'+c1.ccode_name
+                when c1.igrade=3 then c4.ccode_name+'/'+c3.ccode_name+ '/'+c1.ccode_name
+                when c1.igrade=4 then c4.ccode_name+'/'+c3.ccode_name+'/'+c2.ccode_name+ '/'+c1.ccode_name
+            end ccode_name,
+            c4.ccode_name ddd,
+            c2.ccode ccode2,
+            c3.ccode ccode3,
+            c4.ccode ccode4,
+            c1.igrade,
+            c1.bproperty,
+            c1.bitem ,
+            c1.bend from  ${dbName}..code c1 
+            left join  ${dbName}..code c2 on c2.ccode=left(c1.ccode,8) 
+            left join  ${dbName}..code c3 on c3.ccode=left(c2.ccode,6) 
+            left join ${dbName}..code c4 on c4.ccode=left(c3.ccode,4)
+        where c1.cass_item =#{itemClass} 
+        and c1.bend = 1
+        <if test="isU810 !=null and isU810">
+            and iyear = year
+        </if>
+        order by c1.ccode --> 
+        	select * from(
+		select 
+            c1.ccode,
+            case when c1.igrade=1 then c1.ccode_name 
+                when c1.igrade=2 then c4.ccode_name+'/'+c1.ccode_name
+                when c1.igrade=3 then c4.ccode_name+'/'+c3.ccode_name+ '/'+c1.ccode_name
+                when c1.igrade=4 then c4.ccode_name+'/'+c3.ccode_name+'/'+c2.ccode_name+ '/'+c1.ccode_name
+            end ccode_name,
+            c1.ccode_name as endName,
+            '('+c1.ccode+') '+c1.ccode_name as endCodeName,
+            c4.ccode_name ddd,
+            c2.ccode ccode2,
+            c3.ccode ccode3,
+            c4.ccode ccode4,
+            c1.igrade,
+            c1.bproperty,
+            c1.bitem ,
+            c1.bend 
+            ,(select top 1 pCode.ccode 
+            from UFDATA_002_2019..code pCode 
+            where c1.ccode like pCode.ccode+'%' 
+            and c1.ccode != pCode.ccode
+            order by pCode.ccode desc )as parent
+            from  ${dbName}..code c1 
+            left join  ${dbName}..code c2 on c2.ccode=left(c1.ccode,8) 
+            left join  ${dbName}..code c3 on c3.ccode=left(c2.ccode,6) 
+            left join ${dbName}..code c4 on c4.ccode=left(c3.ccode,4)
+        where c1.bend = 1
+        <if test="isU810 !=null and isU810">
+            and iyear = year
+        </if>
+        --order by c1.ccode
+        union all 
+        select ccode,ccode_name,ccode_name,'('+ccode+') '+ccode_name as endCodeName,ccode_name as ddd,null,
+        null,null,igrade,bproperty,bitem,bend
+        ,(select top 1 pCode.ccode 
+            from UFDATA_002_2019..code pCode 
+            where code.ccode like pCode.ccode+'%' 
+            and code.ccode != pCode.ccode
+            order by pCode.ccode desc ) as parent from  
+        ${dbName}..code
+        where bend=0
+        and ccode in (
+			select pCode.ccode
+			from UFDATA_002_2019..code code
+			left join UFDATA_002_2019..code pCode
+				on code.ccode like pCode.ccode+'%'
+            and code.ccode != pCode.ccode
+        )
+        <if test="isU810 !=null and isU810">
+            and iyear = year
+        </if>
+        )t
+        <where> 
+        	<if test="subjInfo !=null and subjInfo != ''">
+	            and (endName like '%${subjInfo}%' or ccode like '%${subjInfo}%')
+	        </if>
+        	<choose>
+        		<when test="isEnd == null">
+        			and bend = 1
+        		</when>
+        		<when test="isEnd == 0">
+        			
+        		</when>
+        		<otherwise>
+        			and bend = #{isEnd}
+        		</otherwise>
+        	</choose>
+        </where>
+        order by ccode
+    </select>
+    
+    <select id="getDeptItemTree" resultType="map" parameterType="map">
+        select 'c_'+ic.citemccode as nodeCode,
+        ic.citemcname as nodeName, 
+        case when ic.iItemCgrade = 1 then 'treeRoot' else (select 'c_'+substring(ic.citemccode,1,(len(ic.citemccode)-(select substring(crule,ic.iitemcgrade,1) from ${dbName}..fitem where cclasstable =#{itemClassTabName})))) end as parentNode
+        from ${dbName}..${itemClassTabName} ic 
+        union all
+        select 'i_'+citemcode as nodeCode, citemname as nodeName,'c_'+i.citemccode as parentNode
+        from ${dbName}..${itemTabName} i
+    </select>
+    
+    <select id="getItemClassList" resultType="map" parameterType="map">
+        <!-- select
+            cItemCcode,
+            cItemCname,
+            iItemCgrade,
+            bItemCend,
+            (
+                select top 1 cItemCcode 
+                from ${dbName}..${itemClassTabName} pic
+                where ic.cItemCcode like pic.cItemCcode+'%'
+                and pic.cItemCcode <![CDATA[<>]]> ic.cItemCcode
+                order by pic.cItemCcode desc
+            ) parentNode
+        from ${dbName}..${itemClassTabName} ic 
+        order by cItemCcode -->
+		select * into #tab from (select
+            cItemCcode,
+            cItemCname,
+            iItemCgrade,
+            bItemCend,
+            (
+                select top 1 cItemCcode 
+                from ${dbName}..${itemClassTabName} pic
+                where ic.cItemCcode like pic.cItemCcode+'%'
+                and pic.cItemCcode <![CDATA[<>]]> ic.cItemCcode
+                order by pic.cItemCcode desc
+            ) parentNode
+        from ${dbName}..${itemClassTabName} ic )t;
+        
+        with itam(cItemCcode,cItemCname,iItemCgrade,bItemCend,parentNode,name)
+		as
+		(
+		select cItemCcode,cItemCname,iItemCgrade,bItemCend,parentNode,cast(cItemCname as nvarchar(max)) as name from #tab where parentNode is Null
+		Union All
+		Select A.cItemCcode,A.cItemCname,A.iItemCgrade,A.bItemCend,A.parentNode,cast((B.cItemCname+'/'+A.cItemCname)as nvarchar(max)) as name 
+		from #tab A inner join itam B on A.parentNode=B.cItemCcode
+		)
+		select * from itam order by cItemCcode
+		
+		drop table #tab
+    </select>
+    
+     <select id="getFundSrcList" resultType="map" parameterType="map">
+        select 
+            cValue as fundSrc
+        from ${dbName}..UserDefine ud
+        where ud.cId in (#{fundSrcDefine})
+        <if test="fundSrcInfo !=null and fundSrcInfo !='' ">
+            and (cValue like '%${fundSrcInfo}%')
+        </if>
+        order by calias
+    </select>
+    
+    <select id="getFitem" resultType="map" parameterType="map">
+        select 
+        i_id,
+        citem_class,
+        citem_name,
+        citem_text,
+        crule,
+        ctable,
+        cClasstable 
+        from ${dbName}..fitem where citem_class=#{itemClass}
+    </select>
+    
+    <select id="getItemInfo" resultType="map" parameterType="map">
+        select 
+          i_id,
+          citemcode,
+          citemname,
+          citemccode,
+          bclose
+        from ${dbName}..fitemss${itemClass} 
+        where citemcode=#{itemCode}
+    </select>
+    
+    <select id="getOtherItemDefineStructure" resultType="map" parameterType="map">
+        Select 
+          citem_sqr,
+          cfield_name,
+          ctext,
+          itype,
+          ilength,
+          iSource, 
+          ctablename, 
+          cfieldname,
+          '' as field_value,
+          '' as field_valueadd
+        from ${dbName}..fitemstructure 
+        where citem_class =#{itemClass}
+        AND imode <![CDATA[<>]]>0 
+        AND imode <![CDATA[<>]]>5 
+        and iSubItem=0 
+        and iSource  is not null
+        and ctext not in ('项目负责人','项目经费','立项日期','要求结项日期')
+        order by citem_sqr
+    </select>
+    
+    <select id="getItemDeptListByCode" resultType="map" parameterType="map">
+        select
+         * 
+         from ${dbName}..department where cDepCode=#{code}
+    </select>
+    
+
+    <select id="getUserByU8" resultType="map" parameterType="map">
+        select
+            suser.sys_user_code,
+            suser.sys_user_name,
+            suser.sys_user_account,
+            suser.Sys_Dept_Name as Dept_Name,
+            suser.Sys_Dept_Code as Dept_Code,
+    (SELECT LEFT(
+        (select Sys_Role_name+',' from (select roles.Sys_Role_name from Sys_Role roles
+            left join Sys_User_Role uRole
+            on uRole.Sys_Role_Code = roles.Sys_Role_Code
+            where uRole.Sys_User_Code = suser.Sys_User_Code
+        ) a for xml path(''))
+        ,LEN(
+        (select Sys_Role_name+',' from (select roles.Sys_Role_name from Sys_Role roles
+            left join Sys_User_Role uRole
+            on uRole.Sys_Role_Code = roles.Sys_Role_Code
+            where uRole.Sys_User_Code = suser.Sys_User_Code
+        ) a for xml path(''))
+        )-1)
+    )as role_name
+        from  sys_user suser
+        where suser.sys_User_Visible = 'Y' 
+        and suser.Sys_User_Enable ='Y'
+        <if test='itemMember !=null and itemMember== "Y"'>
+            and suser.sys_user_account in (select cpersoncode from ${dbName}..person person
+                join ${dbName}..hr_hi_person hr_hi_person on hr_hi_person.cPsn_Num  = person.cpersoncode
+                join ${dbName}..department department on hr_hi_person.cDept_num=department.cDepCode
+                where 1=1 and hr_hi_person.rPersonType in (select ccodeID from ${dbName}..hr_ct000 where vdescription in ('在职人员','离退人员','离休人员','退休人员','退职人员','兼职','请假','事假','病假','产假'))
+            )
+        </if> 
+        <if test="userInfo !=null and userInfo !=''">
+            and (suser.sys_user_name like '%${userInfo}%' or sys_user_account like '%${userInfo}%')
+        </if>
+        <if test="deptCode !=null and deptCode !=''">
+            and suser.Sys_Dept_Code = #{deptCode}
+        </if>
+        order by suser.sys_user_name
+    </select>
+    <select id="getUserByU8ForLM" resultType="map" parameterType="map">
+        select
+            suser.sys_user_code,
+            suser.sys_user_name,
+            suser.sys_user_account,
+            suser.Sys_Dept_Name as Dept_Name,
+            suser.Sys_Dept_Code as Dept_Code,
+    (SELECT LEFT(
+        (select Sys_Role_name+',' from (select roles.Sys_Role_name from Sys_Role roles
+            left join Sys_User_Role uRole
+            on uRole.Sys_Role_Code = roles.Sys_Role_Code
+            where uRole.Sys_User_Code = suser.Sys_User_Code
+        ) a for xml path(''))
+        ,LEN(
+        (select Sys_Role_name+',' from (select roles.Sys_Role_name from Sys_Role roles
+            left join Sys_User_Role uRole
+            on uRole.Sys_Role_Code = roles.Sys_Role_Code
+            where uRole.Sys_User_Code = suser.Sys_User_Code
+        ) a for xml path(''))
+        )-1)
+    )as role_name
+        from  sys_user suser
+        where suser.sys_User_Visible = 'Y' 
+        and suser.Sys_User_Enable ='Y'
+        <if test='itemMember !=null and itemMember== "Y"'>
+            and suser.sys_user_account in (select cpersoncode from ${dbName}..person person
+                join ${dbName}..hr_hi_person hr_hi_person on hr_hi_person.cPsn_Num  = person.cpersoncode
+                join ${dbName}..department department on hr_hi_person.cDept_num=department.cDepCode
+                where 1=1 and hr_hi_person.rPersonType in (select ccodeID from ${dbName}..hr_ct000 where vdescription in ('在职人员','离退人员','离休人员','退休人员','退职人员','兼职','请假','事假','病假','产假'))
+            )
+        </if> 
+        <if test="userInfo !=null and userInfo !=''">
+            and (suser.sys_user_name like '%${userInfo}%' or sys_user_account like '%${userInfo}%')
+        </if>
+        <if test="deptCode !=null and deptCode !=''">
+            and suser.Sys_Dept_Code = #{deptCode}
+        </if>
+        order by suser.sys_user_name
+    </select>
+    
+    <select id="getItemDefineStructure" resultType="map" parameterType="map">
+        Select 
+            citem_sqr,
+            cfield_name,
+            ctext,
+            itype,
+            ilength,
+            iSource, 
+            ctablename, 
+            cfieldname 
+        from ${dbName}..fitemstructure 
+        where citem_class =#{itemClass}
+        AND imode <![CDATA[<>]]> 0 
+        AND imode <![CDATA[<>]]> 5 
+        and iSubItem=0 
+        and iSource  is not null
+        order by citem_sqr
+    </select>
+    
+    <select id="getItemList" resultType="map" parameterType="map">
+        select 
+          i.I_id as id,
+          dept.cDepName as deptName,
+          i.*
+        from ${dbName}..${itemTabName} i
+        left join ${dbName}..department dept
+        on i.部门 = dept.cDepCode
+        <if test="itemCode!=null and itemCode !=''">
+            where i.citemcode in ('${itemCode}')
+        </if>
+        order by i.citemcode
+    </select>
+    
+     <select id="checkItemCodeExist" resultType="int" parameterType="map">
+        select 
+            count(1) as count
+          from ${dbName}..${itemTabName}
+          where cItemcode = #{itemCode}
+        <if test="id != null and id !='' ">
+            and I_id <![CDATA[<>]]> #{id}
+        </if>
+    </select>
+    
+    <select id="checkItemCcodeExist" resultType="int" parameterType="map">
+        select
+            count(1) as count
+        from ${dbName}..${itemClassTabName}
+        where
+        cItemCcode = #{itemCcode}
+        and bItemCend =1
+    </select>
+    
+    <select id="checkItemName" resultType="int" parameterType="map">
+        select 
+            count(1) as count
+            from ${dbName}..${itemTabName}
+        where cItemname = #{itemName}
+        and citemccode = #{itemCcode}
+        <if test="id != null and id !='' ">
+            and I_id <![CDATA[<>]]> #{id}
+        </if>
+    </select>
+    
+    <insert id="insertItem" parameterType="map">
+        insert into ${dbName}..${itemTabName}(
+            citemcode, 
+            citemname, 
+            bclose, 
+            citemccode
+            <foreach collection ="structureFieldList" item="structureField" separator =" ">
+            ,${structureField.fieldName}
+            </foreach >
+        ) 
+        values (
+            #{itemCode}, 
+            #{itemName},
+            #{bclose},
+            #{itemCcode}
+            <foreach collection ="structureFieldList" item="structureField" separator =" ">
+            ,'${structureField.fieldValue}'
+            </foreach >
+        )
+    </insert>
+    
+    <update id="updateItem" parameterType="map">
+        update 
+            ${dbName}..${itemTabName} 
+        set
+            citemcode =#{itemCode},
+            citemname =#{itemName},
+            bclose = #{bclose},
+            citemccode =#{itemCcode}
+            <foreach collection ="structureFieldList" item="structureField" separator =" ">
+            ,${structureField.fieldName} = '${structureField.fieldValue}'
+            </foreach >
+        where 
+            I_id = #{id}
+    </update>
+    
+    <select id="getItemAllCname" resultType="map" parameterType="map">
+        select 
+            citemccode,
+            citemcname 
+        from 
+            ${dbName}..${itemClassTabName}
+        where
+             charindex(citemccode ,#{itemccode})=1 
+       order by citemccode
+    </select>
+    
+    <select id="getGLXmUsed" parameterType="map" statementType="CALLABLE" resultType="map">
+        <![CDATA[  
+          {call ${dbName}..GL_XmUsed(
+            #{itemClass,mode=IN,jdbcType=VARCHAR},
+            #{itemCode,mode=IN,jdbcType=VARCHAR},
+            #{cRetValue,mode=OUT,jdbcType=VARCHAR})} 
+        ]]> 
+    </select>
+    
+    <delete id="deleteItem" parameterType="map">
+        delete 
+        from ${dbName}..${itemTabName} where citemcode = #{itemCode}
+    
+    </delete>
+    
+    <select id="getPsnListForUser" resultType="map" parameterType="map">
+        select 
+            hr_hi_person.cPsn_Num as cPsnNum, 
+            hr_hi_person.cPsn_Name as cPsnName,
+            hr_hi_person.vIDNo as cIdNo,
+            department.cdepname as cDepName,
+            department.cDepCode  as cDepCode
+        from ${dbName}..hr_hi_person hr_hi_person
+        join ${dbName}..department department on hr_hi_person.cDept_num=department.cDepCode
+        where hr_hi_person.rPersonType in (
+            select ccodeID 
+            from ${dbName}..hr_ct000 
+            where vdescription in ('在职人员','离退人员','离休人员','退休人员','退职人员','兼职','请假','事假','病假','产假')
+        )
+        and not exists (
+            select 1 from sys_user u
+            where hr_hi_person.cPsn_Num =u.sys_user_account
+        )
+        <if test="deptCode != null and deptCode !=''">
+            and ( department.cDepCode like '${deptCode}%' or cDepName like '%${deptCode}%')
+        </if>
+        <if test="psnNum != null and psnNum !=''">
+            and (cPsn_Num like '%${psnNum}%' or cPsn_Name like '%${psnNum}%')
+        </if>
+    </select>
+    
+    <select id="getDeptListByUserId" resultType="map" parameterType="map">
+        select ui.item_code, ic.cItemCname as item_name
+        from bm_user_item ui
+        inner join ${dbName}..${itemClassTabName} ic
+            on ic.cItemCcode = ui.item_code
+            and ic.iItemCgrade = 1
+        where ui.item_type = 'c'
+        and ui.account_id = #{accountId}
+        and ui.year = #{year}
+        and ui.item_class = #{itemClass}
+        and ui.user_id = #{userId}
+    </select>
+    
+    <select id="getClassTree" resultType="map" parameterType="map">
+        select 
+            distinct ic.citemcname as nodeName, 
+            'treeRoot' as pNodeName
+        from ${dbName}..${itemClassTabName} ic  
+        inner join bm_user_item ui 
+            on ui.item_code = ic.citemccode
+            and ui.account_id = #{accountId}
+            and ui.year = #{year}
+            and ui.item_class =#{itemClass}
+            and ui.item_type = 'c'
+        where ic.iItemCgrade =#{classGrade}
+    </select>
+    
+    <select id="getRdStyle" resultType="map" parameterType="map">
+        select 
+        cRdCode,cRdName from  
+        ${dbName}..Rd_Style
+        where cRdName  = #{rdStyle}
+    </select>
+    
+    <select id="getU8DepartmentByUserCode" resultType="map" parameterType="map">
+        select 
+        cDepCode,
+        cDepName
+        from ${dbName}..hr_hi_person h 
+        left join ${dbName}..department d on
+        d.cDepCode = h.cDept_num
+        where 
+        h.cPsn_Num = #{userCode}
+    </select>
+    
+    <select id="getItemCostByItemClass" resultType="map" parameterType="map">
+    </select>
+    
+    <select id="getU8DeptRefer" resultType="map" parameterType="map">
+      select 
+          cDepCode,
+          cDepName,
+          iDepGrade,
+          (
+              select top 1 cDepCode 
+              from ${dbName}..department parentDept
+              where CHARINDEX(parentDept.cDepCode, dept.cDepCode)=1
+              and parentDept.cDepCode != dept.cDepCode
+              order by parentDept.cDepCode desc
+          ) as parentNode
+      from ${dbName}..department dept
+      <where>
+        <if test="deptInfo != null and deptInfo !=''">
+          and (dept.cDepCode like '%${deptInfo}%' or dept.cDepName like '%${deptInfo}%')
+        </if>
+        <if test="deptName != null and deptName !=''">
+          and dept.cDepName like '%${deptName}%'
+        </if>
+        <if test="deptCode != null and deptCode !=''">
+          and dept.cDepCode = #{deptCode}
+        </if>
+        <if test="isEnd != null">
+          and dept.bDepEnd = #{isEnd}
+        </if>
+      </where>
+      order by dept.cDepCode
+    </select>
+    
+    <select id="getU8ItemSortRefer" resultType="map" parameterType="map">
+      select 
+          cItemCcode,
+          cItemCname,
+          iItemCgrade,
+          (
+              select top 1 cItemCcode 
+              from ${dbName}..${itemClassTabName} parentTb
+              where CHARINDEX(parentTb.cItemCcode, itemClassTb.cItemCcode)=1
+              and parentTb.cItemCcode != itemClassTb.cItemCcode
+              and parentTb.iItemCgrade = convert(int,itemClassTb.iItemCgrade)-1
+              order by parentTb.cItemCcode desc
+          ) as parentNode
+      from ${dbName}..${itemClassTabName} itemClassTb
+      <where>
+        <if test="itemSortinfo != null and itemSortinfo !=''">
+          and (itemClassTb.cItemCcode like '%${itemSortinfo}%' or itemClassTb.cItemCname like '%${itemSortinfo}%')
+        </if>
+        <if test="itemCname != null and itemCname !=''">
+          and itemClassTb.cItemCname like '%${itemCname}%'
+        </if>
+        <if test="itemCcode != null and itemCcode !=''">
+          and itemClassTb.cItemCcode = #{itemCcode}
+        </if>
+      </where>
+      order by itemClassTb.cItemCcode
+    </select>
+    
+    <select id="getU8ItemRefer" resultType="map" parameterType="map">
+      select 
+          itemTb.cItemCode,
+          itemTb.cItemName,
+          itemTb.cItemCcode,
+          itemClassTab.cItemCcode as deptCode,
+          itemClassTab.cItemCname as deptName,
+          (select STUFF((select '/'+ pc.citemcname from ${dbName}..${itemClassTabName} pc where charIndex(pc.citemccode, itemTb.citemccode)=1 order by pc.citemccode FOR XML PATH('')),1,1,''))+'/'+itemTb.cItemName as cItemPath
+      from ${dbName}..${itemTabName} itemTb
+      left join ${dbName}..${itemClassTabName} itemClassTab
+        on itemTb.citemccode like itemClassTab.citemccode+'%' 
+        and itemClassTab.iItemCgrade=1
+      <where>
+        <if test="itemInfo != null and itemInfo !=''">
+          and (itemTb.cItemCode like '%${itemInfo}%' or itemTb.cItemName like '%${itemInfo}%')
+        </if>
+        <if test="itemName != null and itemName !=''">
+          and itemTb.cItemName like '%${itemName}%'
+        </if>
+        <if test="itemCode != null and itemCode !=''">
+          and itemTb.cItemCode = #{itemCode}
+        </if>
+        <if test="itemCcode != null and itemCcode !=''">
+          and itemTb.cItemCcode like '${itemCcode}%'
+        </if>
+      </where>
+      order by itemTb.cItemCcode, itemTb.cItemCode
+    </select>
+    
+    <select id="getU8InvClsListForRefer" parameterType="map" resultType="map">
+      select 
+        invCls.cInvCCode as inv_cls_code,
+        invCls.cInvCName as inv_cls_name,
+        (
+            select top 1 pInvCls.cInvCCode 
+            from ${dbName}..InventoryClass pInvCls 
+            where invCls.cInvCCode like pInvCls.cInvCCode+'%' 
+            and invCls.cInvCCode != pInvCls.cInvCCode 
+            order by pInvCls.cInvCCode desc ) as inv_cls_parent,
+        invCls.bInvCEnd as is_end,
+        invCls.iInvCGrade as inv_cls_level
+      from ${dbName}..InventoryClass invCls
+      <where>
+        <if test="invClsInfo !=null and invClsInfo != '' ">
+            and (invCls.cInvCCode like '%${invClsInfo}%' or invCls.cInvCName like '%${invClsInfo}%')
+        </if>
+        <if test="invClsCode !=null and invClsCode != '' ">
+            and invCls.cInvCCode = #{invClsCode}
+        </if>
+        <if test="invClsName !=null and invClsName != '' ">
+            and invCls.cInvCName like '%${invClsName}%'
+        </if>
+      </where>
+      order by invCls.cInvCCode
+    </select>
+    
+    <select id="getU8InvListForRefer" parameterType="map" resultType="map">
+      select 
+        inv.cInvCode as inv_Code,
+        inv.cInvName as inv_Name,
+        inv.cInvStd as inv_Std,
+        unit.cComUnitName as unit_name,
+        inv.cVenCode as ven_Code,
+        ven.cVenName as  ven_Name,
+        wh.cWhCode as wh_Code,
+        wh.cWhName as wh_Name,
+        inv.iInvNCost as refer_price,
+        cast(isnull(stock.stock_quantity,0) as decimal(10,2)) as  Stock_Quantity 
+      from ${dbName}..inventory inv
+      left join ${dbName}..computationUnit unit on  inv.cComUnitCode  = unit.cComUnitCode   
+      left join ${dbName}..vendor ven  on  ven.cVenCode  = inv.cVenCode 
+      left join ${dbName}..Warehouse wh  on wh.cWhCode = inv.cDefWareHouse
+      left join(
+          select 
+            cinvcode, sum(iquantity) as stock_quantity 
+          from ${dbName}..currentstock 
+          where cWhCode!='99' 
+          group by cinvcode
+      ) stock on stock.cinvCode = inv.cinvCode
+      <where>
+        <if test="invInfo!=null and invInfo != '' ">
+            and (inv.cInvCode like '%${invInfo}%' or inv.cInvName like '%${invInfo}%')
+        </if>
+        <if test="invCode!=null and invCode != '' ">
+            and inv.cInvCode = #{invCode}
+        </if>
+        <if test="invClsCode !=null and invClsCode != '' ">
+            and inv.cInvCCode like '${invClsCode}%'
+        </if>
+        <if test="invName!=null and invName != '' ">
+            and inv.cInvName like '%${cInvName}%'
+        </if>
+      </where>
+    </select>
+    
+    <select id="getU8SubjListForRefer" parameterType="map" resultType="map">
+      select 
+        code.ccode,
+        code.ccode_name,
+        code.igrade,
+        code.bend,
+        (
+            select top 1 pCode.ccode 
+            from ${dbName}..code pCode 
+            where code.ccode like pCode.ccode+'%' 
+            and code.ccode != pCode.ccode
+            order by pCode.ccode desc ) as ccode_parent
+      from ${dbName}..code code
+      <where>
+        <if test="subjInfo !=null and subjInfo != '' ">
+            and (code.ccode like '%${subjInfo}%' or code.ccode_name like '%${subjInfo}%')
+        </if>
+        <if test="subjCode !=null and subjCode != '' ">
+            and code.ccode = #{subjCode}
+        </if>
+        <if test="subjName !=null and subjName != '' ">
+            and code.ccode_name like '%${subjName}%'
+        </if>
+      </where>
+      order by code.ccode
+    </select>
+    
+    <update id="createMaterialAppVouch" parameterType="map">
+        declare @headId int
+        set @headId =(select isnull(MAX(ID) ,0) + 1  from ${dbName}..MaterialAppVouch)
+        
+        insert into ${dbName}..MaterialAppVouch(ccode,[id],ddate,cPersonCode,cdepcode,cRdCode,cmemo,cmaker,vt_id,cDefine3)
+        values(#{cCode},@headId,#{dDate},#{cPersonCode1},#{cDeptCode},#{cRdCode},#{cMemo},#{cMaker},'30718',#{cDefine3})
+        
+        <foreach collection ="bodyMapList" item="bodyMap" separator =" ">
+        insert into ${dbName}..MaterialAppVouchs(AutoID,[id],cinvcode,iQuantity,cItemCode,cItem_class,cItemCName,cName,cdefine33)
+        values((select isnull(MAX(AutoID) ,0) + 1 from ${dbName}..MaterialAppVouchs),@headId,#{bodyMap.cInvCode},#{bodyMap.iQantity}
+        ,#{bodyMap.cItemCode},#{bodyMap.cItemClass},#{bodyMap.cItemCName},#{bodyMap.cName},#{bodyMap.cdefine33})
+        </foreach >
+    </update>
+    
+    <select id="getU8VendorRefer" parameterType="map" resultType="map">
+      select 
+      	venClass.cVCCode as venClassCode,
+      	venClass.cVCName as venClassName,
+		ven.cVenCode as venCode,
+		ven.cVenName as venName,
+		'('+ven.cVenCode+')'+ven.cVenName as cName,
+		venClass.cVCCode as cParent
+      from ${dbName}..Vendor ven
+      left join ${dbName}..VendorClass venClass
+      	on ven.cVCCode = venClass.cVCCode
+      <where>
+        <if test="venInfo !=null and venInfo != '' ">
+            and (ven.cVenCode like '%${venInfo}%' or ven.cVenName like '%${venInfo}%')
+        </if>
+        <if test="venCode !=null and venCode != '' ">
+            and ven.cVenCode = #{venCode}
+        </if>
+        <if test="venName !=null and venName != '' ">
+            and ven.cVenName like '%${venName}%'
+        </if>
+      </where>
+      order by cVenCode
+    </select>
+    <select id="getU8VendorClassRefer" parameterType="map" resultType="map">
+      select 
+      	venClass.cVCCode as cCode,
+      	venClass.cVCName as cName,
+		(CASE WHEN (venClass.cVCCode = LEFT(venClass.cVCCode,2) ) THEN '' ELSE LEFT(venClass.cVCCode,2) END) as cParent
+      from ${dbName}..VendorClass venClass
+    </select>
+    
+    <select id="getU8PsnForRefer" resultType="map" parameterType="map">
+        select 
+            hr_hi_person.cPsn_Num as cPsnNum, 
+            hr_hi_person.cPsn_Name as cPsnName,
+            hr_hi_person.vIDNo as cIdNo,
+            department.cdepname as cDepName,
+            department.cDepCode  as cDepCode,
+            psnType.ccodeID as cPsnType,
+            psnType.vdescription as cPsnTypeName,
+            (
+            
+                select stuff((select ','+r.Sys_Role_Name from Sys_User_Role ur
+                left join Sys_Role r on ur.Sys_Role_Code = r.Sys_Role_Code 
+                left join Sys_User u on u.Sys_User_Code = ur.Sys_User_Code
+                where u.Sys_User_Account = hr_hi_person.cPsn_Num for xml path('')),1,1,'')
+            ) as roleName
+        from ${dbName}..hr_hi_person hr_hi_person
+        join ${dbName}..department department on hr_hi_person.cDept_num=department.cDepCode
+        left join ${dbName}..hr_ct000 psnType
+            on hr_hi_person.rPersonType = psnType.ccodeID
+        where psnType.vdescription in ('在职人员','离职人员','离休人员','退休人员','退职人员','兼职','请假','事假','病假','产假')
+        <if test="deptCode != null and deptCode !=''">
+            and ( department.cDepCode like '${deptCode}%' or cDepName like '%${deptCode}%')
+        </if>
+        <if test="psnNum != null and psnNum !=''">
+            and (cPsn_Num like '%${psnNum}%' or cPsn_Name like '%${psnNum}%')
+        </if>
+        <if test="departmentCode != null and departmentCode !=''">
+            and department.cDepCode = '${departmentCode}'
+        </if>
+        <if test="deptCodeLike != null and deptCodeLike !=''">
+            and department.cDepCode like '${deptCodeLike}%'
+        </if>
+        order by department.cDepCode,psnType.vdescription,hr_hi_person.cPsn_Num
+    </select>
+    
+    <select id="getU8PsnForNum" resultType="map" parameterType="map">
+        select 
+            hr_hi_person.cPsn_Num as cPsnNum, 
+            hr_hi_person.cPsn_Name as cPsnName,
+            hr_hi_person.vIDNo as cIdNo
+        from ${dbName}..hr_hi_person hr_hi_person
+        left join ${dbName}..hr_ct000 psnType
+            on hr_hi_person.rPersonType = psnType.ccodeID
+        where psnType.vdescription in ('在职人员','离职人员','离休人员','退休人员','退职人员','兼职','请假','事假','病假','产假')
+        <if test="psnNum != null and psnNum !=''">
+            and cPsn_Num = #{psnNum}%
+        </if>
+    </select>
+    
+    <select id="checkCHandler" parameterType="map" resultType="map">
+      select * from ${dbName}..MaterialAppVouch where (chandler is not null and chandler!='') and ccode = #{vouchCode}
+    </select>
+    
+    <delete id="deleteMaterialAppVouch" parameterType="map">
+		delete ${dbName}..MaterialAppVouchs where id in (select ID from ${dbName}..MaterialAppVouch v where v.cCode = #{vouchCode})
+		delete ${dbName}..MaterialAppVouch where cCode = #{vouchCode}
+    </delete>
+</mapper>

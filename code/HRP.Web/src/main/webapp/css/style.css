@@ -1,0 +1,674 @@
+html, body
+{
+    height:100%;
+    padding:0px;
+    margin:0px;
+    font: 12px Helvetica Neue,Helvetica,PingFang SC,\5FAE\8F6F\96C5\9ED1,Tahoma,Arial,sans-serif;
+}
+
+
+::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+}
+::-webkit-scrollbar-corner, ::-webkit-scrollbar-track {
+    background-color: #e2e2e2;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background-color: rgba(0,0,0,.3);
+}
+.nav-side-fold {
+    height: 33px;
+    background-color: #395a83;/* 修改#ffffff */
+    color: #aeb9c2;
+    line-height: 35px;
+    text-align: center;
+    cursor: pointer;
+}
+.tabs-panels 
+{
+    padding:0px !important;
+}
+.needLabel
+{ 
+    color:blue;
+}
+form
+{
+    margin:0px;
+}
+select
+{    
+    height: 20px;
+    width:150px; 
+    padding:1px; 
+    border: 1px solid #989898;
+    padding:0px;
+    margin:0px
+}
+
+select option
+{    
+    padding:0px;
+    margin:0px
+}
+input[type=text], input[type=password]
+{
+    width:146px; 
+    height: 16px;
+    line-height:16px;
+    border-right: #989898 1px solid;
+    border-top: #989898 1px solid;
+    border-left: #989898 1px solid;
+    border-bottom: #989898 1px solid;
+    padding:1px 1px;
+    vertical-align:middle;
+}
+
+input[type=checkbox]
+{
+    margin:3px 0px;
+}
+
+textarea
+{    
+    padding:1px; 
+    border: 1px solid #989898;
+    overflow: auto;
+}
+
+
+.pageblock{
+    background: url("../images/page/pageBg.gif") repeat-x;
+    overflow:hidden;
+    _padding: 2px 5px 2px 5px;
+    height:26px;
+    border:1px #CCCCCC solid;
+    border-top :0px;
+}
+.pagetable{
+    height:22px;
+}
+.pagebtn_over{
+    background: url("../images/page/button-over.gif") no-repeat;    
+    width: 22px;
+    height: 22px;
+    background-position: 0px 0px;
+}
+.page-first{
+    background: url("../images/page/page-first.gif") no-repeat;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border:0 none;
+    cursor: pointer;
+    background-position: 3px 3px;
+}
+.page-first-disabled{
+    background: url("../images/page/page-first-disabled.gif") no-repeat;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border:0 none;
+    background-position: 3px 3px;
+}
+.page-prev{
+    background: url("../images/page/page-prev.gif") no-repeat;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border:0 none;
+    cursor: pointer;
+    background-position: 3px 3px;
+}
+.page-prev{
+    background: url("../images/page/page-prev.gif") no-repeat;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border:0 none;
+    cursor: pointer;
+    background-position: 3px 3px;
+}
+.page-prev-disabled{
+    background: url("../images/page/page-prev-disabled.gif") no-repeat;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border:0 none;
+    background-position: 3px 3px;
+}
+.page-next{
+    background: url("../images/page/page-next.gif") no-repeat;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border:0 none;
+    cursor: pointer;
+    background-position: 3px 3px;
+}
+.page-next-disabled{
+    background: url("../images/page/page-next-disabled.gif") no-repeat;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border:0 none;
+    background-position: 3px 3px;
+}
+.page-last{
+    background: url("../images/page/page-last.gif") no-repeat;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border:0 none;
+    cursor: pointer;
+    background-position: 3px 3px;
+}
+.page-last-disabled{
+    background: url("../images/page/page-last-disabled.gif") no-repeat;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border:0 none;
+    background-position: 3px 3px;
+}
+.page-refresh{
+    background: url("../images/page/refresh.gif") no-repeat;
+    height: 22px;
+    width: 22px;
+    background-color: transparent;
+    border:0 none;
+    cursor: pointer;
+    background-position: 3px 3px;
+}
+.page_sep{
+    background-image: url("../images/page/grid-blue-split.gif");
+    background-position: center center;
+    background-repeat: no-repeat;
+    border: 0 none;
+    cursor: default;
+    display: block;
+    font-size: 1px;
+    height: 16px;
+    margin: 0 2px;
+    overflow: hidden;
+    width: 4px;
+}
+.nodata{
+    color:red;
+    line-height:50px;    
+    height:50px;
+    text-align: center;
+    border: 1px #C4C4C4 solid;
+    border-top: 0px;
+}
+
+.selectbtn
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+.rowIndex
+{
+    background: #FAFAFA repeat-y;
+    width:40px;
+}
+
+.readOnly
+{
+    background:#FAFAFA !important;
+}
+.tabs-tool table { border-width: 0; border-collapse: collapse; border-spacing: 0; }
+.tabs-tool table td { padding: 0; }
+.separator {
+    float: left;
+    height: 20px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #fff;
+    margin: 0px 1px;
+}
+.accordion-body
+{
+    background:#EAF2FF !important;
+}
+
+
+a/* 链接初始状态*/ 
+{
+    text-decoration:none;
+} 
+ 
+.datagrid a:link/* 未访问的链接 */
+{
+    color:blue;
+    text-decoration:none;
+}  
+.datagrid a:visited/* 已访问的链接 */
+{
+    text-decoration:none;
+    /*color:#3165D6*/
+    color:blue;
+    
+} 
+.datagrid a:hover/* 鼠标在链接上 */
+{
+    text-decoration:underline;
+    color:#FF0000;
+}
+.datagrid a:active/* 点击激活链接 */ 
+{
+    text-decoration:underline;
+    color:#FF0000;
+}
+.datagrid a[disabled=disabled]/* 链接初始状态*/ 
+{
+    color:gray;
+}
+.datagrid a[disabled=disabled]:link/* 未访问的链接 */
+{
+    color:gray;
+    text-decoration:none;
+}  
+.datagrid a[disabled=disabled]:visited/* 已访问的链接 */
+{
+    text-decoration:none;
+    /*color:#3165D6*/
+    color:gray;
+    
+} 
+.datagrid a[disabled=disabled]:hover/* 鼠标在链接上 */
+{
+    text-decoration:none;
+    color:gray;
+}
+.datagrid a[disabled=disabled]:active/* 点击激活链接 */ 
+{
+    text-decoration:none;
+    color:gray;
+}
+.datagrid-toolbar a:visited/* 已访问的链接 */
+{
+    text-decoration:none;
+    /*color:#3165D6*/
+    color:#000 !important;
+    
+} 
+.datagrid-toolbar a:link/* 未访问的链接 */
+{
+    color:#000 !important;
+    text-decoration:none;
+} 
+.attachList
+{
+    padding:0px;
+    margin:0px;
+}
+
+.attachList li
+{
+    list-style-type: none;
+    display:block;
+    margin:2px;
+}
+.infoTable
+{
+    border-collapse:collapse;
+    line-height:25px;
+}
+
+
+.inputForm
+{
+    width:100%;
+}
+
+.inputForm .title
+{
+    font-size:20px;
+    height:32px;
+    font-weight:bold;
+    text-align:center;
+}
+.inputForm tr
+{    
+    line-height: 22px;
+    height: 22px;
+}
+.inputForm td
+{
+    white-space: nowrap;
+}
+.inputForm td input[type=text]
+{
+    border-width:1px;
+    border-color:transparent;
+    border-bottom:1px #C5CAD0 solid;   
+    width:160px;
+    height: 16px;
+}
+
+.inputForm td input[type=text]:focus
+{
+    border:1px #95B8E7 solid;
+    background:#FFFFD8
+}
+
+.inputForm td select
+{
+    width:162px;
+    height: 20px;
+}
+
+.inputForm .input_date{
+    background: url(../images/datebox_arrow.png) no-repeat right;    
+}
+
+
+.inputForm .input_date:focus
+{
+    border:1px #95B8E7 solid;
+    background:#FFFFD8 url(../images/datebox_arrow.png) no-repeat right !important;
+}
+.input[type=text]
+{
+    border-width:1px;
+    border-color:transparent;
+    border-bottom:1px #666 solid;   
+    width:160px;
+    height: 16px;
+}
+
+.input[type=text]:focus
+{
+    border:1px #95B8E7 solid;
+    background:#FFFFD8
+}
+.input_date{
+    background: url(../images/datebox_arrow.png) no-repeat right;    
+}
+
+
+.input_date:focus
+{
+    border:1px #95B8E7 solid;
+    background:#FFFFD8 url(../images/datebox_arrow.png) no-repeat right !important;
+}
+
+.datagrid-cell
+{
+    padding:0px 4px 0px 0px !important;    
+    height:25px;
+}
+
+.datagrid-cell select
+{
+    width: 100%;
+    height: 100%;
+}
+
+.datagrid-cell input[type=text] 
+{
+    width: 100%;    
+    height:18px;
+    border-width: 1px;
+    border-color: transparent;
+    background:transparent;
+}
+.datagrid-cell input[type=text]:focus
+{
+    border:1px #95B8E7 solid;
+    background:#FFFFD8
+}
+
+.inputbore
+{
+    border-width: 0px 0px 1px 0px!important;
+    border-color: #B5B8C8!important;
+    width: 100%;
+}
+
+.gridtable .subGridtable 
+{
+    width:100%;
+}
+.gridtable .subGridtable tr td
+{
+    border-width: 0px 0px 0px 0px;
+    border-style: solid;
+    margin: 0;
+    padding: 0;
+    border-color: #aaa;
+}
+
+fieldset
+{
+    border:1px #ccc solid;
+    padding:5px;
+}
+fieldset legend
+{
+    margin-bottom:0px;
+}
+
+
+.gridtable
+{
+    width:100%;
+    border-collapse:collapse;
+    background-color:#cccccc;
+}
+
+
+.gridtable thead tr
+{
+    background-color:#CCE8FF;
+    height:25px;
+    text-align: center;
+}
+.gridtable thead tr th
+{
+    padding:0px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-width:0px 1px 1px 0px;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+}
+.gridtable tbody tr
+{
+    line-height: 25px;
+    text-align: left;
+    background:#ffffff;
+}
+.gridtable tbody tr td
+{
+    padding:0px;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-width:0px 1px 1px 0px;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+}
+.gridtable tbody tr td input
+{
+    width:100%;
+    border-width:0px;
+    background-color:transparent;
+    height:25px;
+    line-height: 25px;
+}
+
+.vouchFieldDiv{
+    overflow: hidden;
+}
+
+.vouchFieldDiv div{
+     vertical-align: middle;
+     width: 250px;
+     float: left;
+     margin:3px 0px;
+     overflow:hidden;
+}
+
+.vouchFieldDiv div label{
+    width:80px;
+    line-height:22px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: right;
+    vertical-align: baseline;
+    padding-right:3px;
+}
+
+.vouchFieldDiv div input[type=text]{
+    display: inline-block;
+    vertical-align: bottom;
+    width:158px;
+    border: 1px #C5CAD0 solid;
+    height: 22px;
+    background-color: #fff;
+    border-radius: 3px;
+    padding-left:2px;
+}
+.vouchFieldDiv div select{
+     display: inline-block;
+     vertical-align: bottom;
+     width:164px;
+     height: 26px;
+     border-radius: 3px;
+     border: 1px #C5CAD0 solid;
+}
+.vouchFieldDiv div textarea{
+    display: inline-block;
+    vertical-align: top;
+    width:159px;
+    height:50px;
+    border: 1px #C5CAD0 solid;
+    overflow: auto;
+    border-radius: 3px;
+    padding-left:2px;
+}
+
+.contextMenuPlugin {
+    -webkit-user-select: none;
+    display: none;
+    font-family: tahoma, arial, sans-serif;
+    font-size: 11px;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+    min-width: 100px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f3f7;
+    border: 2px solid #f7f7f7;
+    outline: 1px solid #949694;
+}
+
+.contextMenuPlugin > li {
+    margin: 0 0 0 0;
+    padding: 1px;
+    background-repeat: no-repeat;
+}
+
+.contextMenuPlugin > li > a {
+    position: relative;
+    display: block;
+    padding: 3px 3px 3px 28px;
+    color: ButtonText;
+    text-decoration: none;
+    margin: 1px;
+}
+
+.contextMenuPlugin > li > a img {
+    position: absolute;
+    left: 3px;
+    margin-top: -2px;
+    width: 16px;
+    height: 16px;
+}
+.contextMenuPlugin > li > a:hover {
+    border: 1px solid #fffbff;
+    outline: 1px solid #b5d3ff;
+    margin: 0;
+    background: -moz-linear-gradient(top, rgba(239,239,255,0.5) 0%, rgba(223,223,255,0.5) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(239,239,255,0.5)), color-stop(100%,rgba(223,223,255,0.5))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(239,239,255,0.5) 0%,rgba(223,223,255,0.5) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(239,239,255,0.5) 0%,rgba(223,223,255,0.5) 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, rgba(239,239,255,0.5) 0%,rgba(223,223,255,0.5) 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80efefff', endColorstr='#80dfdfff',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, rgba(239,239,255,0.5) 0%,rgba(223,223,255,0.5) 100%); /* W3C */
+    cursor: default;
+}
+
+.contextMenuPlugin > li.divider {
+    border-top: 1px solid #e7e3e7;
+    border-bottom: 1px solid #ffffff;
+    height: 0;
+    padding: 0;
+    margin: 5px 0 5px 27px;
+}
+
+.contextMenuPlugin > .header {
+    background: rgb(90,90,90); /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(90,90,90,1) 0%, rgba(20,20,20,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(90,90,90,1)), color-stop(100%,rgba(20,20,20,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(90,90,90,1) 0%,rgba(20,20,20,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(90,90,90,1) 0%,rgba(20,20,20,1) 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, rgba(90,90,90,1) 0%,rgba(20,20,20,1) 100%); /* IE10+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5a5a5a', endColorstr='#141414',GradientType=0 ); /* IE6-9 */
+    background: linear-gradient(top, rgba(90,90,90,1) 0%,rgba(20,20,20,1) 100%); /* W3C */
+    position: relative;
+    cursor: default;
+    padding: 3px 3px 3px 3px;
+    color: #ffffff;
+}
+
+.contextMenuPlugin > .gutterLine {
+  position: absolute;
+  border-left: 1px solid #e7e3e7;
+  border-right: 1px solid #ffffff;
+  width: 0;
+  top: 0;
+  bottom: 0;
+  left: 26px;
+  z-index: 0;
+}
+
+.a_oper {
+    margin: 0px 6px;
+    font-size:13px;
+    cursor: pointer;
+    letter-spacing: 0px;
+}
+.a_oper:hover{
+    color:red;
+    text-decoration: underline;
+}
+
+.a_disabled, .a_disabled:active, .a_disabled:hover {
+    color: #C9C9C9 !important;
+    cursor: not-allowed;
+}
+.blue {
+    color: #1E9FFF;
+}
+.red {
+    color: #FF5722;
+}
+.green {
+    color: #009688;
+}
+.btn-row{
+    padding:1px 0px 3px 0px;
+}
+.btn-row-center{
+    text-align:center;
+}

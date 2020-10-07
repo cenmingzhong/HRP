@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="DB_Person_Type">
+    <select id="getPersonTypeList" resultType="PersonType" parameterType="map">
+        select
+          id,
+          Person_Type_Code,
+          Person_Type_Name,
+        from DB_Person_Type
+        <where>
+            <if test="personTypeCode!=null and personTypeCode!=''">
+                and Person_Type_Code=#{personTypeCode}
+
+            </if>
+
+        </where>
+
+    </select>
+
+
+</mapper>

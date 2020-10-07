@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="Sys_Print_Template">
+
+<update id="removeOtherDefault"  parameterType="map">
+        UPDATE Sys_Print_Template 
+        SET
+          Is_Default=0
+          <where>
+             <if test="templateClsCode !=null and templateClsCode !=''">
+               and  Template_Cls_Code=#{templateClsCode}
+             </if>
+             <if test="templateCode !=null and templateCode !=''">
+                 and Template_Code <![CDATA[<>]]> #{templateCode}
+             </if>
+          </where>
+
+</update>
+
+ <!-- 过滤查询-->
+    <select id="getTemplateTree" resultType="map">
+      select 
+        Template_Cls_Code as node_code,
+        Template_Cls_Name as node_name,
+        Template_Cls_Code as data_Code,
+        '' as node_parent,
+        'TempCls' as node_Type
+      from Sys_Print_Template_Class
+      union all
+      select 
+        Template_Cls_Code+'_'+Template_Code as node_code,
+        Template_Name as node_name,
+        Template_Cls_Code as data_Code,
+        Template_Cls_Code as node_parent,
+        'Temp' as node_Type
+      from Sys_Print_Template
+    </select>
+
+</mapper>

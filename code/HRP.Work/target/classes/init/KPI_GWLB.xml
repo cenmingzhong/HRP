@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VouchGeneral code="KPI" name="岗位类别" appName="绩效管理">
+    <headList>
+    	<headField code="00001" name="教学主体型教师"/>
+        <headField code="00002" name="教研主体型教师(经学校认定)"/>
+        <headField code="00003" name="教学建设综合型(教研室主任、专业带头人等)"/>
+        <headField code="00004" name="实践教学型教师"/>
+    </headList>
+    <bodyList>
+    	<bodyField code="10001" name="专业技术2级岗" referTo="00001"/>
+    	<bodyField code="10002" name="专业技术3级岗" referTo="00001"/>
+    	<bodyField code="10003" name="专业技术4级岗" referTo="00001"/>
+    	<bodyField code="10004" name="专业技术5级岗" referTo="00001"/>
+    	<bodyField code="10005" name="专业技术6级岗" referTo="00001"/>
+    	<bodyField code="10006" name="专业技术7级岗" referTo="00001"/>
+    	<bodyField code="10007" name="专业技术8级岗" referTo="00001"/>
+    	<bodyField code="10008" name="专业技术9级岗" referTo="00001"/>
+    	<bodyField code="10009" name="专业技术10级岗" referTo="00001"/>
+    	<bodyField code="10010" name="专业技术11级岗" referTo="00001"/>
+    	<bodyField code="10011" name="专业技术12级岗" referTo="00001"/>
+    	
+    	<bodyField code="20001" name="专业技术2级岗" referTo="00002"/>
+    	<bodyField code="20002" name="专业技术3级岗" referTo="00002"/>
+    	<bodyField code="20003" name="专业技术4级岗" referTo="00002"/>
+    	<bodyField code="20004" name="专业技术5级岗" referTo="00002"/>
+    	<bodyField code="20005" name="专业技术6级岗" referTo="00002"/>
+    	<bodyField code="20006" name="专业技术7级岗" referTo="00002"/>
+    	<bodyField code="20007" name="专业技术8级岗" referTo="00002"/>
+    	<bodyField code="20008" name="专业技术9级岗" referTo="00002"/>
+    	<bodyField code="20009" name="专业技术10级岗" referTo="00002"/>
+    	<bodyField code="20010" name="专业技术11级岗" referTo="00002"/>
+    	<bodyField code="20011" name="专业技术12级岗" referTo="00002"/>
+    	
+    	<bodyField code="30001" name="专业技术2级岗" referTo="00003"/>
+    	<bodyField code="30002" name="专业技术3级岗" referTo="00003"/>
+    	<bodyField code="30003" name="专业技术4级岗" referTo="00003"/>
+    	<bodyField code="30004" name="专业技术5级岗" referTo="00003"/>
+    	<bodyField code="30005" name="专业技术6级岗" referTo="00003"/>
+    	<bodyField code="30006" name="专业技术7级岗" referTo="00003"/>
+    	<bodyField code="30007" name="专业技术8级岗" referTo="00003"/>
+    	<bodyField code="30008" name="专业技术9级岗" referTo="00003"/>
+    	<bodyField code="30009" name="专业技术10级岗" referTo="00003"/>
+    	<bodyField code="30010" name="专业技术11级岗" referTo="00003"/>
+    	<bodyField code="30011" name="专业技术12级岗" referTo="00003"/>
+    	
+    	<bodyField code="40001" name="专业技术2级岗" referTo="00004"/>
+    	<bodyField code="40002" name="专业技术3级岗" referTo="00004"/>
+    	<bodyField code="40003" name="专业技术4级岗" referTo="00004"/>
+    	<bodyField code="40004" name="专业技术5级岗" referTo="00004"/>
+    	<bodyField code="40005" name="专业技术6级岗" referTo="00004"/>
+    	<bodyField code="40006" name="专业技术7级岗" referTo="00004"/>
+    	<bodyField code="40007" name="专业技术8级岗" referTo="00004"/>
+    	<bodyField code="40008" name="专业技术9级岗" referTo="00004"/>
+    	<bodyField code="40009" name="专业技术10级岗" referTo="00004"/>
+    	<bodyField code="40010" name="专业技术11级岗" referTo="00004"/>
+    	<bodyField code="40011" name="专业技术12级岗" referTo="00004"/>
+    </bodyList>
+    <footList>
+    </footList>
+</VouchGeneral>

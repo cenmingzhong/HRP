@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="DB_Person"> 
+
+     <select id="getInfo" resultType="map" parameterType="map">
+        select 
+          *
+        from DB_Person
+        <where>
+            <if test="personCode!=null and personCode!=''">
+                and Person_Code = #{personCode}
+            </if>
+            <if test="deptCode!=null and deptCode!=''">
+                and Dept_Code = #{deptCode}
+            </if>
+            <if test="deptName!=null and deptName!=''">
+                and Dept_Name = #{deptName}
+            </if>
+        </where>
+    </select>
+    
+    <select id="getPersonList" resultType="map" parameterType="map">
+      select  
+         *
+      from DB_Person
+      <where>
+        <if test="deptName!=null and deptName!=''">
+          and  Dept_Name =#{deptName}
+        </if>
+        <if test="personCode!=null and personCode!=''">
+          and  Person_Code  =#{personCode}
+        </if>
+        <if test="personCodes!=null and personCodes!=''">
+          and Person_Code in('${@com.gzhh.hrp.tools.StringTools@replaceWord(personCodes,",","','")}')
+        </if>
+        <if test="personName!=null and personName!=''">
+          and  (Person_Name like '%'+#{personName}+'%' or dbo.GetInitialLetter(Person_Name) like '%'+#{personName}+'%')
+        </if>
+        <if test="deptCode!=null and deptCode!=''">
+          and  Dept_Code  like '${deptCode}%'
+        </if>
+        <if test="personInfo!=null and personInfo!=''">
+          and  (Person_Code like '%'+#{personInfo}+'%' or Person_Name like '%'+#{personInfo}+'%' or dbo.GetInitialLetter(Person_Name) like '%'+#{personInfo}+'%')
+        </if>
+      </where>
+    </select>
+
+    <select id="getList" resultType="map" parameterType="map" >  
+     select 
+        *
+      from 
+        DB_Person
+      <where>
+      <if test="deptCode!=null and deptCode!=''">
+      and  Dept_Code like '${deptCode}%'
+      </if>
+      <if test="personCode!=null and personCode!=''">
+      and  Person_Code like #{personCode}+'%'
+      </if>
+      <if test="personName!=null and personName!=''">
+      and  (Person_Name like '%'+#{personName}+'%' or dbo.GetInitialLetter(Person_Name) like '%'+#{personName}+'%')
+      </if>
+      <if test="personInfo!=null and personInfo!=''">
+      and  (Person_Code like '%'+#{personInfo}+'%' or Person_Name like '%'+#{personInfo}+'%' or dbo.GetInitialLetter(Person_Name) like '%'+#{personInfo}+'%')
+      </if>
+      </where>
+    </select>
+    
+    <select id="getPersonListByRole" resultType="Person">
+        select person.* from DB_Person person
+        left join Sys_User_Person userPerson on person.Person_Code = userPerson.Person_Code
+        left join Sys_User_Role userRole on userPerson.Sys_User_Code = userRole.sys_user_code
+        where userRole.Sys_Role_Code = #{value}
+    </select>
+    
+    <select id="getPersonListByDept" resultType="Person">
+        select * from DB_Person where dept_Code = #{value}
+    </select>
+</mapper>

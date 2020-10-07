@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="HRP.Tools" />
+        <module name="HRP.Web" />
+        <module name="HRP.Common" />
+        <module name="HRP.Work" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="HRP" target="1.8" />
+      <module name="HRP.Common" target="1.8" />
+      <module name="HRP.Tools" target="1.8" />
+      <module name="HRP.Web" target="1.8" />
+      <module name="HRP.Work" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

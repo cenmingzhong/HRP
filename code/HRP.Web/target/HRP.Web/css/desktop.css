@@ -1,0 +1,432 @@
+
+.widget-box {
+    margin-top: 10px;
+    margin-right: 8px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    height: 100%;
+    background-color: #fafafa;
+    border: 1px solid #eee;
+    overflow:hidden;
+}
+
+.widget-header {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    cursor: move;
+    box-sizing: content-box;
+    position: relative;
+    background: #fafafa;
+    background-repeat: repeat-x;
+    color: #222 !important;
+    border-bottom: 1px solid #f1f1f1;
+    transition: all .3s ease-in-out
+}
+
+.1widget-header:hover {
+    background: #f8f8f8;
+    border-bottom: 1px solid #DDD
+}
+
+.widget-header:before,.widget-header:after {
+    content: "";
+    display: table;
+    line-height: 0
+}
+
+.widget-header:after {
+    clear: right
+}
+
+.widget-header>.widget-caption>[class*="icon-"],.widget-header>:first-child>[class*="icon-"] {
+    margin-right: 5px;
+    font-weight: normal;
+    display: inline-block
+}
+
+.widget-header>.widget-caption,.widget-header>:first-child {
+    line-height: 36px;
+    padding: 0;
+    margin: 0;
+    display: inline
+}
+
+.widget-main {
+    padding: 0;
+    height: 100%
+}
+
+.widget-main iframe {
+    height: 100%;
+    width: 100%
+}
+
+.widget-toolbar {
+    cursor: default;
+    display: none;
+    padding: 0 10px;
+    line-height: 36px;
+    float: right;
+    position: relative;
+    opacity: .3
+}
+
+.widget-header:hover .widget-toolbar {
+    display: none
+}
+
+.widget-header-large>.widget-toolbar {
+    line-height: 36px
+}
+
+.widget-header:hover .widget-toolbar:before {
+    display: none;
+    content: "";
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: -1px;
+    border: 1px solid #CCC;
+    border-width: 0 1px 0 0
+}
+
+.widget-toolbar label {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 0
+}
+
+.widget-toolbar>a {
+    font-size: 14px;
+    margin: 0 1px;
+    display: inline-block;
+    padding: 0;
+    line-height: 24px
+}
+
+.widget-toolbar>a:hover {
+    text-decoration: none
+}
+
+.widget-header-large>.widget-toolbar>a {
+    font-size: 15px;
+    margin: 0 1px
+}
+
+.widget-toolbar>.btn {
+    line-height: 27px;
+    margin-top: -2px
+}
+
+.widget-toolbar>.btn.smaller {
+    line-height: 26px
+}
+
+.widget-toolbar>.btn.bigger {
+    line-height: 28px
+}
+
+.widget-toolbar>.btn-sm {
+    line-height: 24px
+}
+
+.widget-toolbar>.btn-sm.smaller {
+    line-height: 23px
+}
+
+.widget-toolbar>.btn-sm.bigger {
+    line-height: 25px
+}
+
+.widget-toolbar>.btn-xs {
+    line-height: 22px
+}
+
+.widget-toolbar>.btn-xs.smaller {
+    line-height: 21px
+}
+
+.widget-toolbar>.btn-xs.bigger {
+    line-height: 23px
+}
+
+.widget-toolbar>.btn-minier {
+    line-height: 18px
+}
+
+.widget-toolbar>.btn-minier.smaller {
+    line-height: 17px
+}
+
+.widget-toolbar>.btn-minier.bigger {
+    line-height: 19px
+}
+
+.widget-toolbar>.btn-lg {
+    line-height: 36px
+}
+
+.widget-toolbar>.btn-lg.smaller {
+    line-height: 34px
+}
+
+.widget-toolbar>.btn-lg.bigger {
+    line-height: 38px
+}
+
+.widget-toolbar-dark {
+    background: #444
+}
+
+.widget-toolbar-light {
+    background: rgba(255,255,255,0.85)
+}
+
+.widget-toolbar>[data-action]>[class*="icon-"] {
+    margin-right: 0
+}
+
+.widget-toolbar>[data-action]:focus {
+    text-decoration: none
+}[class*="header-color-"]>.widget-toolbar>[data-action] {
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2)
+}
+
+.widget-toolbar>[data-action] {
+    text-shadow: none;
+    color: #999;
+    opacity: .1
+}
+
+.widget-header:hover>.widget-toolbar>[data-action] {
+    opacity: 1
+}
+
+.widget-placeholder {
+    border: 2px dashed #d9d9d9
+}
+
+.widget-column {
+    float: left;
+    height: auto;
+    padding-left: 0!important
+}
+
+.ofenFun-column {
+    float: left;
+    height: auto;
+    padding-left: 0!important
+}
+
+#widget-add div:hover {
+    color: #777;
+    border: 2px dashed #777
+}
+
+#widget-add div:hover a {
+    color: #777
+}
+
+#widget-add {
+    float: left;
+    width: 33%;
+    height: 260px;
+}
+
+#widget-add div {
+    border: 2px dashed #e5e5e5;
+    height: 100%;
+    display: block;
+    margin-top: 12px;
+    margin-right: 8px
+}
+
+#widget-add div a {
+    color: #e5e5e5;
+    width: 120px;
+    display: block;
+    margin: 35px auto
+}
+
+#widget-add i {
+    font-size: 100px;
+    background-color: transparent
+}
+.fa-plus {
+    font-size: 100px;
+}
+
+.tab-content {
+    padding-top: 0
+}
+
+.oftenfun {
+    height: 100%;
+    margin-top: -8px
+}
+
+.oftenfun a {
+    text-align: center;
+    color: #4d4d4d;
+    text-decoration: none
+}
+
+.oftenfun span.fa {
+    font-size: 25px;
+    padding: 10px;
+    background-color: #c6d2dc;
+    border-radius: 5px;
+    color: White
+}
+
+.oftenfun a.fa>div {
+    font-size: 14px;
+    font-family: 'Microsoft YaHei';
+    padding-top: 5px
+}
+
+.oftenfun li {
+    list-style: none;
+    float: left;
+    width: 60px;
+    height: 80px;
+    text-align: center;
+    margin: 5px 0px 5px 10px;
+    padding:0px 10px;
+    border:1px  solid transparent;
+}
+
+.oftenfun ul {
+    list-style: none;
+    padding: 0;
+    padding-start: 0;
+    -webkit-padding-start: 0
+}
+
+.oftenfun li i {
+    display: none
+}
+
+.oftenfun li span {
+    display: block;
+    margin:5px;
+}
+
+.oftenfun li span img{
+    width:36px;
+    height:36px;
+}
+
+.oftenfun span.fa:hover {
+    background-color: #c6d2dc;
+    color: #428bca
+}
+
+ul li a:hover {
+    list-style: none
+}
+
+.oftenAdd {
+    display: inline-block;width: 60px;height: 60px;background:url(../images/desktop/add.png);margin:0px;
+}
+
+.oftenTool {
+    cursor: default;
+    padding: 0 10px;
+    line-height: 36px;
+    position: absolute;
+    right: 5px
+}
+
+.oftenToolAdd {
+    display: inline-block;
+    width: 35px
+}
+
+.oftenTool>span {
+    cursor: pointer
+}
+
+.oftenTool>span:hover {
+    color: #369ad8
+}
+
+.oftenTool>span>a {
+    text-decoration: none;
+    color: #4d4d4d
+}
+
+.oftenTool>span>a:hover {
+    color: #369ad8
+}
+
+.oftenfun li:hover a, .oftenfun li:hover div{
+    cursor: pointer;
+    color: #428bca
+}
+.oftenfun li:hover{
+    border:1px solid #eee;
+    background:#F7F2DE
+}
+
+
+.oftenfun li:hover .oftenImg1 {
+    background: url(../images/desktop/addBill1-hover.png)
+}
+
+.oftenfun li:hover .oftenImg0 {
+    background: url(../images/desktop/addBill1-hover.png)
+}
+
+.oftenfun li:hover .oftenImg2 {
+    background: url(../images/desktop/addBill2-hover.png)
+}
+
+.oftenfun li:hover .oftenAdd {
+    background:url(../images/desktop/add-hover.png);
+}
+
+.toolDelete {
+    position: relative;
+    display: none;
+    float: right;
+    top: -7px;
+    right: -7px;
+    z-index: 100
+}
+
+.h1,.h2,.h3,.h4,.h5,.h6,h1,h2,h3,h4,h5,h6 {
+    font-family: inherit;
+    line-height: 1.1;
+}
+.h4, h4 {
+    font-size: 15px;
+    font-weight: 40;
+}
+.h4, .h5, .h6, h4, h5, h6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.message-main ul{
+    list-style:none;
+    padding:0px;
+    margin:0px;
+}
+.message-main ul li{
+    line-height:30px;
+    padding:0px;
+    margin:0px;
+    margin:0px 5px 0px 5px;
+    overflow:hidden;
+    height:30px;
+    display:block;
+    text-overflow: ellipsis;
+    border-bottom:1px #ccc dashed ;
+}
+.message-main ul li a{
+    cursor:pointer;
+}
+.message-main ul li a:hover{
+    color:red;
+}

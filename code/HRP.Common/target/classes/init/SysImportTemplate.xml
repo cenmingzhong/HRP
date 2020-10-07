@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<setting>
+    <importTemplateList>
+    	<!-- 部门模板导入 -->
+    	<importTemplate templateId="dept_01" templateCode="deptCode" templateText="部门编码" templateType="department" isRequired="true" fieldOrder="0"/>
+		<importTemplate templateId="dept_02" templateCode="deptName" templateText="部门名称" templateType="department" isRequired="true" fieldOrder="1"/>
+    	<importTemplate templateId="dept_03" templateCode="deptParent" templateText="上级部门" templateType="department" isRequired="true" fieldOrder="2"/>
+    	<importTemplate templateId="dept_04" templateCode="deptGrade" templateText="部门层级" templateType="department" isRequired="true" fieldOrder="3"/>
+    	<importTemplate templateId="dept_05" templateCode="isEnd" templateText="是否末级" templateType="department" isRequired="true" fieldOrder="4"/>
+    	<importTemplate templateId="dept_06" templateCode="startTime" templateText="成立日期" templateType="department" isRequired="true" fieldOrder="5"/>
+    	
+    	<!-- 人员模板导入 -->
+    	<importTemplate templateId="person_01" templateCode="personCode" templateText="人员编码" templateType="person" isRequired="true" fieldOrder="0"/>
+		<importTemplate templateId="person_02" templateCode="personName" templateText="人员名称" templateType="person" isRequired="true" fieldOrder="1"/>
+    	<importTemplate templateId="person_03" templateCode="deptCode" templateText="部门编码" templateType="person" isRequired="true" fieldOrder="2"/>
+    	<importTemplate templateId="person_04" templateCode="deptName" templateText="部门名称" templateType="person" isRequired="true" fieldOrder="3"/>
+    	<importTemplate templateId="person_05" templateCode="postTypeCode" templateText="岗位类别编码" templateType="person" isRequired="true" fieldOrder="4"/>
+    	<importTemplate templateId="person_06" templateCode="postTypeName" templateText="岗位类别名称" templateType="person" isRequired="true" fieldOrder="5"/>
+    	<importTemplate templateId="person_07" templateCode="postCode" templateText="岗位编码" templateType="person" isRequired="true" fieldOrder="6"/>
+    	<importTemplate templateId="person_08" templateCode="postName" templateText="岗位名称" templateType="person" isRequired="true" fieldOrder="7"/>
+    </importTemplateList>
+</setting>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+  
+<mapper namespace="Sys_SysMenu">  
+  <select id="getMaxOrder" resultType="int" parameterType="Map">  
+    select 
+      isnull(max(sys_menu_order),0) as maxOrder
+    from sys_menu
+    <where>
+      <if test="sysMenuType != null and sysMenuType != ''">  
+        and sys_menu_type = #{sysMenuType}
+      </if> 
+      <if test="sysMenuModule == null">  
+        and Sys_Menu_Module is null
+      </if>  
+      <if test="sysMenuModule != null and sysMenuModule != ''">  
+        and Sys_Menu_Module = #{sysMenuModule}
+      </if> 
+      <if test="sysMenuParent == null">  
+        and Sys_Menu_Parent is null
+      </if>  
+      <if test="sysMenuParent != null and sysMenuParent != ''">  
+        and Sys_Menu_Parent = #{sysMenuParent}
+      </if> 
+    </where>
+  </select>
+  
+  <update id="updateOrder" parameterType="map">
+      UPDATE 
+        Sys_Menu  
+      SET
+        Sys_Menu_Order=Sys_Menu_Order + #{way}
+      where Sys_Menu_Type = #{sysMenuType}
+      <if test="sysMenuModule ==null">
+        and Sys_Menu_Module is null
+      </if>
+      <if test="sysMenuModule !=null and sysMenuModule !=''">
+        and Sys_Menu_Module = #{sysMenuModule}
+      </if>
+      <if test="sysMenuParent ==null">
+        and Sys_Menu_Parent is null
+      </if>
+      <if test="sysMenuParent !=null and sysMenuParent !=''">
+        and Sys_Menu_Parent = #{sysMenuParent}
+      </if>
+      <if test="maxOrder !=null and maxOrder !=''">
+        and Sys_Menu_Order <![CDATA[ < ]]> #{maxOrder}
+      </if>
+      <if test="minOrder !=null and minOrder !=''">
+        and Sys_Menu_Order <![CDATA[ > ]]> #{minOrder}
+      </if>
+    </update>
+  
+  <select id="getAllModuleMenu" resultType="SysMenu">
+      SELECT
+        Sys_Menu_Code,
+        Sys_Menu_Name,
+        Case When Sys_Menu_Type ='menu' and Sys_Menu_Level =1 then Sys_Menu_Module else Sys_Menu_Parent end as Sys_Menu_Parent,
+        Sys_Menu_Url,
+        Sys_Menu_Module,
+        Sys_Menu_Type,
+        Sys_Menu_Level,
+        Sys_Menu_Order,
+        Sys_Menu_Visible,
+        Sys_Menu_Enable,
+        Sys_Menu_Icon,
+        Sys_Menu_Icon_Open,
+        Sys_Menu_Icon_Close,
+        Sys_Menu_Desc
+      FROM
+        Sys_Menu
+      order by Sys_Menu_Level, Sys_Menu_Order
+    </select>
+    
+    
+  <select id="getMenuTreeByUser" resultType="SysMenu" parameterType="map">
+      SELECT
+        Sys_Menu_Code,
+        Sys_Menu_Name,
+        Case When Sys_Menu_Type ='menu' and Sys_Menu_Level =1 then Sys_Menu_Module else Sys_Menu_Parent end as Sys_Menu_Parent,
+        Sys_Menu_Url,
+        Sys_Menu_Module,
+        Sys_Menu_Type,
+        Sys_Menu_Level,
+        Sys_Menu_Order,
+        Sys_Menu_Visible,
+        Sys_Menu_Enable,
+        Sys_Menu_Icon,
+        Sys_Menu_Icon_Open,
+        Sys_Menu_Icon_Close,
+        Sys_Menu_Desc
+      FROM Sys_Menu
+      <if test="sysUserCode !=null and sysUserCode !=''">
+        where sys_menu_code in(
+            select sys_menu_code from sys_role_menu roleMenu
+            left join sys_user_role userRole
+            on roleMenu.sys_role_code = userRole.sys_role_code
+            where userRole.sys_user_code=#{sysUserCode}
+        )
+      </if>
+      
+      order by Sys_Menu_Level, Sys_Menu_Order
+    </select>
+    
+    <select id="getChildMenuList" resultType="SysMenu" parameterType="map">
+        SELECT
+        Sys_Menu_Code,
+        Sys_Menu_Name,
+        Sys_Menu_Parent,
+        Sys_Menu_Url,
+        Sys_Menu_Module,
+        Sys_Menu_Type,
+        Sys_Menu_Level,
+        Sys_Menu_Order,
+        Sys_Menu_Visible,
+        Sys_Menu_Enable,
+        Sys_Menu_Icon,
+        Sys_Menu_Icon_Open,
+        Sys_Menu_Icon_Close,
+        Sys_Menu_Desc
+      FROM Sys_Menu
+        where Sys_Menu_Parent = #{sysMenuParent}
+    </select>
+    
+    <select id="getMenuList" resultType="SysMenu" parameterType="map">
+        SELECT
+	        Sys_Menu_Code,
+	        Sys_Menu_Name,
+	        Sys_Menu_Parent,
+	        Sys_Menu_Url,
+	        Sys_Menu_Module,
+	        Sys_Menu_Type,
+	        Sys_Menu_Level,
+	        Sys_Menu_Order,
+	        Sys_Menu_Visible,
+	        Sys_Menu_Enable,
+	        Sys_Menu_Icon,
+	        Sys_Menu_Icon_Open,
+	        Sys_Menu_Icon_Close,
+	        Sys_Menu_Desc
+      FROM Sys_Menu
+        <where>
+        	<if test="menuType != null and menuType != '' ">
+        		and Sys_Menu_Type = #{menuType}
+        	</if>
+        	<if test="hasUrl != null and hasUrl != '' ">
+        		and Sys_Menu_Url is not null
+        	</if>
+        </where>
+    </select>
+    
+    <select id="findInitialFun" resultType="map">  
+        select * from sysobjects where xtype='fn' and name='GetInitialLetter'
+    </select>
+    
+    <select id="createInitialFun" resultType="map">
+        CREATE FUNCTION GetInitialLetter(@ChineseString NVARCHAR(4000)) 
+        RETURNS NVARCHAR(4000) 
+        AS
+        BEGIN
+         
+        DECLARE @SingleCharacter NCHAR(1),
+        @ReturnString NVARCHAR(4000) 
+        SET @ReturnString = '' 
+        
+        WHILE LEN(@ChineseString)>0 
+        BEGIN
+        
+        --依次取单个字符
+        SET @SingleCharacter = LEFT(@ChineseString,1) 
+        
+        ----汉字字符，返回字符对应首字母,非汉字字符,返回原字符
+        IF(UNICODE(@SingleCharacter) BETWEEN 19968 AND 19968+20901)
+        SET @ReturnString = @ReturnString + 
+        (SELECT TOP 1 PY FROM
+        (SELECT 'A' AS PY,N'骜' AS ChineseCharacters 
+        UNION All SELECT 'B',N'簿' 
+        UNION All SELECT 'C',N'错' 
+        UNION All SELECT 'D',N'鵽' 
+        UNION All SELECT 'E',N'樲' 
+        UNION All SELECT 'F',N'鳆' 
+        UNION All SELECT 'G',N'腂' 
+        UNION All SELECT 'H',N'夻' 
+        UNION All SELECT 'J',N'攈' 
+        UNION All SELECT 'K',N'穒' 
+        UNION All SELECT 'L',N'鱳' 
+        UNION All SELECT 'M',N'旀' 
+        UNION All SELECT 'N',N'桛' 
+        UNION All SELECT 'O',N'沤' 
+        UNION All SELECT 'P',N'曝' 
+        UNION All SELECT 'Q',N'囕' 
+        UNION All SELECT 'R',N'鶸' 
+        UNION All SELECT 'S',N'蜶' 
+        UNION All SELECT 'T',N'箨' 
+        UNION All SELECT 'W',N'鹜' 
+        UNION All SELECT 'X',N'鑂' 
+        UNION All SELECT 'Y',N'韵' 
+        UNION All SELECT 'Z',N'咗' 
+        )SpellingTable 
+        where ChineseCharacters > = @SingleCharacter COLLATE Chinese_PRC_CS_AS_KS_WS 
+        ORDER by PY ASC)
+        ELSE
+        SET @ReturnString = @ReturnString + @SingleCharacter
+        
+         
+        SET @ChineseString = RIGHT(@ChineseString,LEN(@ChineseString)-1) 
+        
+        END
+         
+        RETURN @ReturnString 
+        
+        END
+    </select>
+</mapper> 

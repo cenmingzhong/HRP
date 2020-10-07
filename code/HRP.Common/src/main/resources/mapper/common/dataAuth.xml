@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="SYS_DataAuth"> 
+    <!-- 查询角色权限-->
+    <select id="getRoleAuthList" resultType="map" parameterType="map">
+      SELECT
+        auth.Id,
+        auth.Org_Code,
+        auth.Auth_Type,
+        auth.Auth_Code,
+        auth.Db_Type,
+        auth.Db_Code,
+        role.Sys_Role_Name as Db_Name
+      FROM
+        SYS_Data_Auth auth
+      Inner Join SYS_Role role
+        on auth.Db_Code = role.Sys_Role_Code
+      where auth.Auth_Type = #{authType}
+      and auth.Auth_Code = #{authCode}
+      and auth.Db_Type = #{dbType}
+    </select>
+    
+    <!-- 清空数据权限 -->
+    <delete id="clearDataAuth" parameterType="map">
+      DELETE FROM
+        SYS_Data_Auth
+      WHERE Auth_Type = #{authType}
+      and Auth_Code = #{authCode}
+    </delete>
+    
+    <select id="getDataAuthListByUser" parameterType="string" resultType="java.lang.Integer">
+		select case when '查看公司数据' in (select auth_type from sys_Data_Auth where sys_role_code =#{value})
+		then  
+			case when '查看部门数据' in (select auth_type from sys_Data_Auth where sys_role_code =#{value})
+			then 0 else 1 end
+		else  
+			2
+		end
+    </select>
+    
+    <select id="getDataAuthListByFile" parameterType="string" resultType="java.lang.Integer">
+    	select case when '查看公司文件' in (select auth_type from sys_Data_Auth where sys_role_code =#{value})
+		then  
+			case when '查看部门文件' in (select auth_type from sys_Data_Auth where sys_role_code =#{value})
+			then 0 else 1 end
+		else  
+			2
+		end
+    </select>
+</mapper>

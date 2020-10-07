@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="Sys_Print_Template_Class">
+<select id="selectListByFilter" parameterType="map" resultType="map">
+ SELECT
+        Template_Cls_Code,
+        Template_Cls_Name,
+        Vouch_Table_Id,
+        Is_System
+      FROM
+        Sys_Print_Template_Class
+        <where>
+          <if test="templateClsCode !=null and templateClsCode !=''">
+            and  Template_Cls_Code=#{templateClsCode}
+          </if>
+           <if test="vouchTableId !=null and vouchTableId !=''">
+            and  Vouch_Table_Id=#{vouchTableId}
+          </if>
+        </where>
+         order by Template_Cls_Code
+</select>
+
+
+
+</mapper>

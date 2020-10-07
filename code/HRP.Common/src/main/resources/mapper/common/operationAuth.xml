@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="Sys_OperationAuth">
+    
+     <delete id="deleteByRoleAndPathUrl"  parameterType="map">
+      DELETE FROM
+        Sys_Operation_Auth
+      WHERE sys_role_code=#{sysRoleCode}
+      and Oper_Id in (
+        select id 
+        from sys_operation
+        where path_url = #{pathUrl}
+      )
+    </delete>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<appSetting>
+    <!-- 是否自动创建菜单 -->
+    <autoCreateMenu>true</autoCreateMenu>
+    <!-- 管理员账号-->
+    <adminAccount>admin</adminAccount>
+    <!-- 管理员密码-->
+    <adminPassword>admin</adminPassword>
+    <appList>
+        <app appKey="SYS" appName="系统管理"></app>
+    </appList>
+    <!-- 系统菜单开始 -->
+   <sysMenuList>
+        <!-- 系统管理开始 -->
+        <sysMenu menuCode="SYS" menuType="module" menuName="系统管理" menuIcon="images/icon01.png">
+        	<sysMenu menuCode="SYS_01" menuName="基础设置">
+	            <sysMenu menuCode="SYS_01_01" menuName="用户档案" menuUrl="system/user/toList.do"/>
+	            <sysMenu menuCode="SYS_01_02" menuName="角色档案" menuUrl="system/role/toList.do"/>
+	            <sysMenu menuCode="SYS_01_03" menuName="数据字典档案" menuUrl="db/dataDict/toList.do"/>
+	            <sysMenu menuCode="SYS_01_04" menuName="单据格式设置" menuUrl="system/format/vouchFormat/toList.do"/>
+	            <sysMenu menuCode="SYS_01_05" menuName="考核年度" menuUrl="system/accountPeriod/toList.do"/>
+        	</sysMenu>
+	        <sysMenu menuCode="SYS_02" menuName="个人中心">
+	        	<sysMenu menuCode="SYS_02_01" menuName="资料修改"  menuUrl="system/user/toUserModi.do"/>
+	            <sysMenu menuCode="SYS_02_02" menuName="密码修改"  menuUrl="system/user/toPsw.do"/>
+	        </sysMenu>
+			<sysMenu menuCode="SYS_03" menuName="打印管理">
+				<sysMenu menuCode="SYS_03_01" menuName="数据源管理"  menuUrl="system/vouchTable/toList.do"/>
+				<sysMenu menuCode="SYS_03_02" menuName="打印模板"  menuUrl="system/print/printTemplate/toList.do"/>
+
+			</sysMenu>
+        </sysMenu>
+        <!-- 系统管理结束 -->
+        <!-- 绩效管理开始 -->
+        <sysMenu menuCode="KPI" menuType="module" menuName="绩效考核管理" menuIcon="images/icon04.png">
+        	<sysMenu menuCode="KPI_01" menuName="岗位管理">
+        		<sysMenu menuCode="KPI_01_01" menuName="岗位" menuUrl="kpi/setting/appointment/toList.do"/>
+        		<sysMenu menuCode="KPI_01_02" menuName="岗位类别" menuUrl="kpi/setting/appointmentType/toList.do"/>
+        	</sysMenu>
+        	<sysMenu menuCode="KPI_02" menuName="人员管理">
+	            <sysMenu menuCode="KPI_02_01" menuName="人员档案" menuUrl="db/person/toList.do"/>
+				<sysMenu menuCode="KPI_02_02" menuName="人员类型档案" menuUrl="db/personType/toList.do"/>
+	         </sysMenu>
+	         <sysMenu menuCode="KPI_03" menuName="部门管理">
+        		<sysMenu menuCode="KPI_03_01" menuName="部门档案" menuUrl="db/dept/toList.do"/>
+	         </sysMenu>
+	         <sysMenu menuCode="KPI_04" menuName="工作量管理">
+        		<sysMenu menuCode="KPI_04_01" menuName="工作量类型" menuUrl="kpi/setting/workloadType/toList.do"/>
+        		<sysMenu menuCode="KPI_04_02" menuName="工作量项设置" menuUrl="kpi/setting/workloadItem/toList.do"/>
+        		<sysMenu menuCode="KPI_04_03" menuName="岗位目标设置" menuUrl="kpi/setting/appointmentTarget/toList.do"/>
+	         </sysMenu>
+        </sysMenu>
+        <!-- 绩效管理结束 -->
+
+        <!--用户管理模块开始-->
+	   <sysMenu menuCode="USER" menuType="module" menuName="用户管理模块" menuIcon="images/icon04.png">
+
+		   <sysMenu menuCode="USER_01" menuName="权限管理">
+			   <sysMenu menuCode="USER_01_01" menuName="权限管理" menuUrl="kpi/setting/workloadType/toList.do"/>
+		   </sysMenu>
+		   <sysMenu menuCode="USER_02" menuName="个人信息管理">
+			   <sysMenu menuCode="USER_02_01" menuName="个人信息管理" menuUrl="kpi/setting/workloadType/toList.do"/>
+		   </sysMenu>
+		   <sysMenu menuCode="USER_03" menuName="用户列表增删改管理">
+			   <sysMenu menuCode="USER_03_01" menuName="用户列表增删改管理" menuUrl="kpi/setting/workloadType/toList.do"/>
+		   </sysMenu>
+	   </sysMenu>
+	    <!--用户管理模块结束-->
+
+	    <!--数据管理模块开始-->
+	   <sysMenu menuCode="DATA" menuType="module" menuName="数据管理模块" menuIcon="images/icon04.png">
+
+		   <sysMenu menuCode="DATA_01" menuName="数据库管理">
+			   <sysMenu menuCode="DATA_01_01" menuName="数据库更新" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="DATA_01_02" menuName="数据库备份" menuUrl="kpi/setting/workloadType/toList.do"/>
+		   </sysMenu>
+	   </sysMenu>
+	    <!--数据管理模块结束-->
+
+	    <!--绩效管理模块开始-->
+	   <sysMenu menuCode="KPIM" menuType="module" menuName="绩效管理模块" menuIcon="images/icon04.png">
+
+		   <sysMenu menuCode="KPIM_01" menuName="教师">
+			   <sysMenu menuCode="KPIM_01_01" menuName="绩点提交管理" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="KPIM_01_02" menuName="绩点查看管理" menuUrl="kpi/setting/workloadType/toList.do"/>
+
+		   </sysMenu>
+		   <sysMenu menuCode="KPIM_02" menuName="主任">
+			   <sysMenu menuCode="KPIM_02_01" menuName="审核" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="KPIM_02_02" menuName="教师信息绩点查询" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="KPIM_02_03" menuName="教师绩点统计输出" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="KPIM_02_04" menuName="设置绩点指标" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="KPIM_02_05" menuName="绩点增删改管理" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="KPIM_02_06" menuName="主任互评管理" menuUrl="kpi/setting/workloadType/toList.do"/>
+		   </sysMenu>
+	   </sysMenu>
+	    <!--绩效管理模块结束-->
+
+    </sysMenuList>
+    <!-- 系统菜单结束 -->
+</appSetting>

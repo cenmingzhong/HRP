@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fsconfig xmlVersion="20140501" releaseVersion="7.1.0" useFS="false" homePageURL="http://www.finereport.com" isLoginPageImg="false" hasNavigation="false" mobiledevbind="false" style="lightblue" gradeAuthority="false" editReportAuthority="false" dataConnectionAuthority="false" controlType="0">
+<hsqlControl hsqlSetting="{&quot;encrypt&quot;:0,&quot;myencrypt&quot;:&quot;&quot;}"/>
+<systemManagerFavoriteAndADHOCReport/>
+</fsconfig>

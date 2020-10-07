@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:context="http://www.springframework.org/schema/context"
+ xmlns:mvc="http://www.springframework.org/schema/mvc"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+
+     <context:component-scan base-package="com.gzhh.hrp.**.action"></context:component-scan>
+     
+     <mvc:annotation-driven >
+        <mvc:argument-resolvers>  
+            <bean class="com.gzhh.hrp.extension.spring.JsonArgumentResolver"/>  
+        </mvc:argument-resolvers>
+        <!-- 处理responseBody 里面日期类型 -->  
+        <mvc:message-converters>  
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+                <property name="objectMapper">  
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="timeZone">  
+                            <bean class="java.util.TimeZone" factory-method="getTimeZone" >  
+                                <constructor-arg value="GMT+08"/>  
+                            </bean>  
+                        </property> 
+                        <property name="dateFormat">  
+                            <bean class="com.gzhh.hrp.extension.spring.CustomDateFormat"/>  
+                        </property>  
+		                <!-- 为null字段时不显示 -->
+		                <property name="serializationInclusion">
+		                    <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>
+		                </property>
+                    </bean>  
+                </property>
+            </bean>  
+        </mvc:message-converters>  
+     </mvc:annotation-driven>
+     <mvc:interceptors>  
+        <!-- <mvc:interceptor>  
+            <mvc:mapping path="/download/**" />  
+            <mvc:mapping path="/upload/**" />  
+            <bean class="com.xxxx.interceptor.AuthInterceptor" />  
+        </mvc:interceptor> -->  
+        
+        <!-- 检查用户权限，对于部分不需要权限的路径进行排除 -->  
+        <mvc:interceptor>  
+            <!-- 先匹配所有路径，然后排除不需要检查的路径 -->  
+            <mvc:mapping path="/**/*.do" />  
+            <!-- 与登录相关的请求 -->  
+            <mvc:exclude-mapping path="/toLogin.do" />  
+            <mvc:exclude-mapping path="/login.do" />  
+            <mvc:exclude-mapping path="/toReLogin.do" />  
+            <mvc:exclude-mapping path="/reLogin.do" />  
+            <mvc:exclude-mapping path="/singleLogin.do" />  
+            <mvc:exclude-mapping path="/exit.do" /> 
+            <mvc:exclude-mapping path="/upload.do" /> 
+            <mvc:exclude-mapping path="/CASLogin.do" /> 
+            <mvc:exclude-mapping path="/**/venRegister/**" />  
+            <!-- 用户是否已经登录的检查 -->  
+            <bean id="loginInterceptor" class="com.gzhh.hrp.common.LoginInterceptor"></bean>  
+        </mvc:interceptor> 
+    </mvc:interceptors>
+    
+     <!-- 配置视图解析器 如何把handler 方法返回值解析为实际的物理视图 -->
+     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+         <property name = "prefix" value="/pages/"></property>
+         <property name = "suffix" value = ".jsp"></property>
+     </bean>
+     
+     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+       p:defaultEncoding="UTF-8"
+       p:maxUploadSize="1000000000"
+       p:uploadTempDir="fileUpload/temp"  >
+     </bean>
+             
+</beans>

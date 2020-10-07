@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="sys_account_state">
+    
+    <select id="getAccountStatus" parameterType="date" resultType="java.lang.Boolean">
+		SELECT
+		  status
+		FROM
+		  sys_account_state
+		where year_month = #{yearMonth}
+    </select>
+
+	 <select id="updateAccountStatus" parameterType="map">
+		update
+		  sys_account_state
+		set 
+		  status = #{status}
+		where year_month = #{yearMonth}
+    </select>
+</mapper>

@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="DB_Department"> 
+
+  <select id="getMaxDeptCode" resultType="string" parameterType="map" > 
+    select
+        max(dept_Code)
+    from Db_Department
+    <where>
+      <if test="deptParent ==null or deptParent== '' ">
+        and PATINDEX('%[^0-9]%', dept_Code)=0
+        and Dept_Grade=1
+        and isnull(Dept_Parent,'')=''
+      </if>
+      <if test="deptParent !=null and deptParent != '' ">
+        and Dept_Parent = #{deptParent}
+        and PATINDEX('%[^0-9]%', substring(dept_Code,len('${deptParent}')+1,len(dept_Code)-len('${deptParent}')))=0
+         
+      </if>
+    </where>
+  </select>
+  
+  <select id="getDeptListBySpdDate" resultType="com.gzhh.hrp.db.entity.Department" parameterType="map" > 
+		SELECT  Dept_Code
+		      ,Dept_Name
+		      ,Dept_Alias
+		      ,Dept_Parent
+		      ,Dept_Prop
+		      ,Dept_Type
+		      ,Dept_Grade
+		      ,Is_End
+		      ,Input_Code
+		      ,Dept_Person
+		      ,Dept_Email
+		      ,Dept_Phone
+		      ,Start_Time
+		      ,End_Time
+		      ,Dept_State
+		      ,Dept_Memo
+		      ,Creator
+		      ,Create_Time
+		      ,Editor
+		      ,Edit_Time
+		      ,Dept_Bus_Person
+		      ,Dept_Acc_Person
+		      ,Dept_Mgr
+		      ,sel_DeptFlag
+      	,manage_type
+  		FROM dbo.DB_Department
+  		<where>
+	      <if test="createTime !=null and createTime !=''">
+	            and convert(varchar,Create_Time ,120) like '%'+#{createTime}+'%'
+	       </if>
+	      <if test="editTime !=null and editTime !=''">
+	           and convert(varchar,Edit_Time ,120) like '%'+#{editTime}+'%'
+	       </if>
+	       <if test="beginDate !=null and beginDate !=''">
+	         and convert(varchar,Start_Time,120) like '%'+#{beginDate}+'%'
+	       </if>
+	       <if test="endDate !=null and endDate !=''">
+	         and convert(varchar,End_Time,120) like '%'+#{endDate}+'%'
+	       </if>
+       </where>
+  		order by Dept_Code
+  </select>
+  <select id="getDepartmentList" resultType="Map" parameterType="map" >  
+    SELECT
+      dept.Dept_Code,
+      dept.Dept_Name,
+      dept.Dept_Alias,
+      dept.Dept_Parent,
+      dept.Dept_Prop,
+      dept.Dept_Type,
+      dept.Dept_Grade,
+      dept.Is_End,
+      dept.Input_Code,
+      dept.Dept_Person,
+      deptPsn.Person_Name as [Dept_Person_Name],
+      dept.Dept_Mgr,
+      deptMgr.Person_Name as [Dept_Mgr_Name], 
+      dept.Dept_Email,
+      dept.Dept_Phone,
+      dept.Start_Time,
+      dept.End_Time,
+      dept.Dept_State,
+      dept.Dept_Memo,
+      dept.Creator,
+      dept.Create_Time,
+      dept.Editor,
+      dept.Edit_Time,
+      dept.Dept_Order,
+      dept.sel_deptFlag,
+      deptLink.link_phone,
+      deptLink.link_address, 
+      deptLink.link_psn
+    FROM
+      DB_Department dept
+    left join DB_Person deptPsn
+      on dept.Dept_Person = deptPsn.Person_Code
+    left join DB_Person deptMgr
+      on dept.Dept_Mgr = deptMgr.Person_Code
+    left join db_department_link deptLink
+      on deptLink.Id  in(select top 1 Id from db_department_link link where link.dept_code=dept.dept_code order by cast(id as bigint))
+    <where>
+      <if test="deptCode != null and deptCode !=''">
+        and dept.Dept_Code =#{deptCode}
+      </if>
+      <if test="deptOrder != null and deptOrder !=''">
+        and dept.Dept_Order =#{deptOrder}
+      </if>
+      <if test="deptName != null and deptName !=''">
+        and dept.Dept_Name like '${deptName}'
+      </if>
+      <if test="showEnd != null and showEnd ==true">
+        and dept.Is_End = 1
+      </if>
+      <if test="filterEnd != null and filterEnd ==true">
+        and not exists(
+          select 1 from DB_Department tempDept
+          where dept.dept_code like tempDept.dept_code+'%'
+          and tempDept.End_Time is not null
+       )
+      </if>
+      <if test="deptInfo != null and deptInfo !=''">
+        and (dept.Dept_Code like '%${deptInfo}%' or dept.Dept_Name like '%${deptInfo}%' or dept.Input_Code like '%${deptInfo}%' )
+      </if>
+      <if test="authFilter != null and authFilter ==true">
+        and ${@com.gzhh.hrp.tools.DataAuthTools@getDeptAuth('dept.Dept_Code')}
+      </if>
+    </where>
+    order by  dept.Dept_Code
+  </select>
+  
+  <select id="getDepartmentList4App" resultType="Map" parameterType="map" >  
+    SELECT
+      dept.Dept_Code,
+      dept.Dept_Name
+    FROM
+      DB_Department dept
+    <where>
+      <if test="deptCode != null and deptCode !=''">
+        and dept.Dept_Code =#{deptCode}
+      </if>
+      <if test="deptName != null and deptName !=''">
+        and dept.Dept_Name like '%${deptName}%'
+      </if>
+    </where>
+    order by  dept.Dept_Code
+  </select>
+  
+  <select id="getListForRefer" resultType="map" parameterType="map" >
+    select tempDept.dept_Code
+    into #tab
+    from db_department tempDept
+    <where>
+        <if test="deptInfo != null and deptInfo !=''">
+            and (tempDept.Dept_Code like '%'+#{deptInfo}+'%' or tempDept.Dept_Name like '%'+#{deptInfo}+'%' or tempDept.Input_Code like '%'+#{deptInfo}+'%' or dbo.GetInitialLetter(tempDept.dept_Name) like '%'+#{deptInfo}+'%')
+        </if>
+        <if test="filterEnd != null and filterEnd ==true">
+            and tempDept.End_Time is null
+        </if>
+        <if test="authFilter != null and authFilter ==true">
+            and ${@com.gzhh.hrp.tools.DataAuthTools@getDeptAuth('tempDept.Dept_Code')}
+        </if>
+    </where> 
+        
+    SELECT
+      dept.Dept_Code,
+      dept.Dept_Name,
+      dept.Dept_Alias,
+      dept.Dept_Parent,
+      dept.Dept_Prop,
+      dept.Dept_Type,
+      dept.Dept_Grade,
+      dept.Is_End,
+      dept.Input_Code,
+      dept.Dept_Person,
+      dept.Dept_Mgr,
+      dept.Dept_Email,
+      dept.Dept_Phone,
+      dept.Start_Time,
+      dept.End_Time,
+      dept.sel_deptFlag,
+      dept.Dept_State,
+      dept.Dept_Memo,
+      dept.sel_DeptFlag,
+      dept.manage_type
+    FROM
+      DB_Department dept
+    where
+	    exists(
+	        select 1 from #tab tempDept
+	     		<where>
+		           <if test="showEnd != null and showEnd ==true">
+		               and charIndex(tempDept.dept_Code,dept.dept_Code)=1  
+		           </if>
+		           <if test="showEnd == null or showEnd ==false">
+		               and (charIndex(dept.dept_Code,tempDept.dept_Code)=1  or charIndex(tempDept.dept_Code,dept.dept_Code)=1)
+		           </if>
+		       </where> 
+	    )
+   	<if test="isBlur != null and isBlur ==true">
+   		and (dept.Dept_Code like '%'+#{deptInfo}+'%' or dept.Dept_Name like '%'+#{deptInfo}+'%' or dept.Input_Code like '%'+#{deptInfo}+'%' or dbo.GetInitialLetter(dept.dept_Name) like '%'+#{deptInfo}+'%')
+   	</if>
+    <if test="deptCode != null and deptCode !=''">
+      and dept.Dept_Code =#{deptCode}
+    </if>
+    <if test="deptName != null and deptName !=''">
+      and dept.Dept_Name like '${deptName}'
+    </if>
+    <if test="filterEnd != null and filterEnd ==true">
+      and dept.End_Time is null
+    </if>
+    order by dept.dept_code
+    
+    drop table #tab
+  </select> 
+  
+  <select id="getDepartmentFilterOrgCode" resultType="map" parameterType="map">
+  if not exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[gzhh_dept]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+        begin
+          declare @sql nvarchar(max)
+          set @sql =
+  'create proc gzhh_dept(
+    @org_code char(20),
+    @dept_code varchar(50)
+    )
+    as
+    begin
+
+    IF not object_id(N''tempdb..##bomtmp'') IS NULL DROP TABLE  ##bomtmp 
+
+    create table ##bomtmp(
+        dept_code char(20),
+        dept_Grade char(20),
+        dept_parent char(20)
+    )
+    if @dept_code is not null
+    begin
+    insert into ##bomtmp(dept_code,dept_Grade,dept_parent)
+    select dept_code,dept_Grade,dept_parent
+    from  db_department where is_end=1 and dept_code =@dept_code
+    end
+    else
+    begin
+    insert into ##bomtmp(dept_code,dept_Grade,dept_parent)
+    select dept_code,dept_Grade,dept_parent
+    from  db_department where is_end=1
+    end
+
+    declare @xh int,@max_dept_grade int
+    set @xh=1
+    select @max_dept_grade=max(dept_grade) from ##bomtmp
+    while @xh <![CDATA[<=]]> @max_dept_grade
+        begin
+            insert into ##bomtmp(dept_code,dept_Grade,dept_parent)
+            select distinct a.dept_parent dept_code,a.dept_Grade,b.dept_parent dept_parent
+            from  ##bomtmp a left join db_department b on a.dept_parent=b.dept_code
+            where a.dept_parent not in (select distinct dept_code from ##bomtmp)
+                    and a.dept_parent<![CDATA[<]]>>''''
+          
+            set @xh=@xh+1
+        end
+    select 
+      dept.Dept_Code,
+      dept.Dept_Name,
+      dept.Dept_Alias,
+      dept.Dept_Parent,
+      dept.Dept_Prop,
+      dept.Dept_Type,
+      dept.Dept_Grade,
+      dept.Is_End,
+      dept.Input_Code,
+      dept.Dept_Person,
+      deptPsn.Person_Name as [Dept_Person_Name],
+      dept.Dept_Mgr,
+      deptMgr.Person_Name as [Dept_Mgr_Name], 
+      dept.Dept_Email,
+      dept.Dept_Phone,
+      dept.Start_Time,
+      dept.End_Time,
+      dept.Dept_State,
+      dept.Dept_Memo,
+      dept.Creator,
+      dept.Create_Time,
+      dept.Editor,
+      dept.Edit_Time,
+      dept.Dept_Order,
+      dept.sel_deptFlag,
+      deptLink.link_phone,
+      deptLink.link_address, 
+      deptLink.link_psn
+     from db_department dept
+    left join DB_Person deptPsn
+      on dept.Dept_Person = deptPsn.Person_Code
+    left join DB_Person deptMgr
+      on dept.Dept_Mgr = deptMgr.Person_Code
+    left join db_department_link deptLink
+      on deptLink.Id  in(select top 1 Id from db_department_link link where link.dept_code=dept.dept_code order by cast(id as bigint))
+    where dept.dept_code in(
+    select distinct dept_code from  ##bomtmp) order by dept.dept_code
+    drop table ##bomtmp
+    end'
+     exec sp_executesql @sql
+        end
+        exec gzhh_dept #{deptCode}
+  </select>
+  
+  <select id="getPersonCodeByUseDept" resultType="map">
+  <!-- 报废申请单 -->
+    select
+    distinct
+    dept.dept_Code
+    from FA_Equip_DisCard_Apply_Detail apply
+    left join FA_Equip_Card_Dept dept on apply.equip_card_id=dept.card_id
+    where mid = #{value}
+    
+    union all
+    
+    <!-- 报废单 -->
+    select
+    distinct
+    dept.dept_Code
+    from FA_Equip_Bill_Detail billDetail
+    left join FA_Equip_Card_Dept dept on billDetail.card_id=dept.card_id
+    where mid = #{value}
+    
+    union all
+    
+    <!-- 变动单 -->
+    select
+    distinct
+    dept.dept_Code
+    from FA_Equip_change_Detail changeDetail
+    left join FA_Equip_Card_Dept dept on changeDetail.equip_card_id=dept.card_id
+    where mid = #{value}
+    
+    union all
+    
+    <!-- 调拨单 -->
+    select
+    distinct
+    dept.dept_Code
+    from FA_Equip_trans_Detail transDetail
+    left join FA_Equip_Card_Dept dept on transDetail.equip_card_id=dept.card_id
+    where mid = #{value}
+  </select>
+  
+  <select id="getDeptIsUse" resultType="map">
+  if not exists (select * from dbo.sysobjects where id = object_id('[dbo].[HRP_FindDeptInDB]') and OBJECTPROPERTY(id, 'IsProcedure') = 1)
+        begin
+          declare @sql nvarchar(max)
+          set @sql =
+          'CREATE PROCEDURE [dbo].[HRP_FindDeptInDB]
+        (
+            @value VARCHAR(1024)
+        ) 
+        AS
+        BEGIN
+            SET NOCOUNT ON;
+            DECLARE @sql VARCHAR(1024) 
+            DECLARE @table VARCHAR(64) 
+            DECLARE @column VARCHAR(64) 
+            CREATE TABLE #t ( 
+                tablename VARCHAR(64), 
+                columnname VARCHAR(64) 
+            ) 
+            DECLARE TABLES CURSOR FOR  
+            select 
+                oSub.name,SubCol.name
+            from 
+            sys.foreign_keys fk  
+            JOIN sys.all_objects oSub  
+                ON (fk.parent_object_id = oSub.object_id)
+            JOIN sys.all_objects oMain 
+                ON (fk.referenced_object_id = oMain.object_id)
+            JOIN sys.foreign_key_columns fkCols 
+                ON (fk.object_id = fkCols.constraint_object_id)
+            JOIN sys.columns SubCol 
+                ON (oSub.object_id = SubCol.object_id  
+                    AND fkCols.parent_column_id = SubCol.column_id)
+            JOIN sys.columns MainCol 
+                ON (oMain.object_id = MainCol.object_id  
+                    AND fkCols.referenced_column_id = MainCol.column_id)
+            where  oMain.name=''DB_Department''
+            and MainCol.name=''Dept_Code''
+            OPEN TABLES 
+                FETCH NEXT FROM TABLES 
+                INTO @table, @column 
+                WHILE @@FETCH_STATUS = 0 
+                BEGIN 
+                    SET @sql = ''IF EXISTS(SELECT NULL FROM ['' + @table + '']''
+                    SET @sql = @sql + ''WHERE RTRIM(LTRIM(['' + @column + ''])) LIKE ''''%'' + @value + ''%'''')''
+                    SET @sql = @sql + ''INSERT INTO #t VALUES (''''''+@table+'''''',''''''+@column+'''''')''
+                    EXEC (@sql)
+                    if (select COUNT(*) from #t) > 0
+                        break;
+                    FETCH NEXT FROM TABLES 
+                    INTO @table, @column 
+                END 
+            CLOSE TABLES 
+            DEALLOCATE TABLES
+            SELECT * FROM #t 
+            DROP TABLE #t 
+        End'
+        exec sp_executesql @sql
+        end
+        exec HRP_FindDeptInDB #{value}
+  </select>
+</mapper>

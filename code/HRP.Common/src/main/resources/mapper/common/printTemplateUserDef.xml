@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="Sys_Print_Template_User_Def">
+<delete id="deleteByCode" parameterType="map">
+      DELETE FROM
+      Sys_Print_Template_User_Def
+  <where>
+      <if test="userCode !=null and userCode !=''">
+          and User_Code=#{userCode}
+      </if>
+      <if test="templateClsCode !=null and templateClsCode !=''">
+          and Template_Cls_Code=#{templateClsCode}
+      </if>
+  </where>
+</delete>
+
+</mapper>

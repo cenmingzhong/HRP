@@ -1,0 +1,113 @@
+
+body { 
+    background:#fff; 
+    height:100%; 
+    margin:0; 
+    padding:0; 
+    overflow:hidden;
+    font: 14px Helvetica Neue,Helvetica,PingFang SC,\5FAE\8F6F\96C5\9ED1,Tahoma,Arial,sans-serif
+}
+.loginMain {
+    width: 480px;
+    height:390px;
+    box-shadow: 2px 2px 70px #2193CE;
+    border-radius: 5px;
+    background: rgba(28,126,180,0.6);;
+    filter:alpha(opacity=60);
+    border: 1px solid #909090;
+    position: absolute;
+    top: 50%;
+    left:50%;
+    margin-left: -240px;
+    margin-top: -215px;  
+}
+
+.loginMain .title {
+    display: block;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    color: #ffffff;
+    font-size: 32px;
+    text-align: center;
+    font-weight: bold;
+    margin: 20px 0px ;
+}
+
+.loginBlock{
+    color:#fff;
+    font-size:20px;
+    margin:0 auto;
+    width:300px;
+}
+
+.loginRow{
+    height: 38px;
+    margin-bottom: 20px;
+    background: #2d2d2d;
+    background: rgba(45,45,45,.15);
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px solid #3d3d3d;
+    border: 1px solid rgba(255,255,255,.15);
+    -moz-box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+    -webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.1) inset;
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,.1);
+    -o-transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -ms-transition: all .2s; 
+}
+.loginRow i{
+    font-size:18px;
+    width:30px;
+    text-align:center;
+}
+.loginRow input{
+    display: inline-block;
+    vertical-align: middle;
+    width:262px;
+    height: 36px;
+    background: transparent !important;
+    border-width: 0px;
+    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    color: #fff;
+    margin:1px 0px;
+}
+
+.buttonRow{
+	height:40px;
+	line-height:40px;
+	margin-bottom: 5px;
+}
+.buttonRow .layui-btn i{
+	margin-right:8px;
+}
+.buttonRow .loginBtn{
+	margin-left:0px !important;
+	width:130px;
+	float:left;
+	background:#1ABFA2;
+}
+
+.buttonRow .loginBtn i{
+    font-size:16px;
+}
+.buttonRow .resetBtn{
+    width:130px;
+    float:right;
+    margin-right:2px;
+}
+
+.msgRow{
+	color: #FF585D;
+	line-height:20px;
+	font-size:14px;
+    margin-top: 10px;
+}

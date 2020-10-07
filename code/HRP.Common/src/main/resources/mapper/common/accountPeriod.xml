@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="Sys_AccountPeriod">
+    <!-- 查询 -->
+    <select id="getPeriodByYearMonth" resultType="AccountPeriod" parameterType="string">
+      SELECT
+        Id,
+        Org_Code,
+        Year,
+        Month,
+        Year_Month,
+        Begin_Date,
+        End_Date
+      FROM
+        Sys_Account_Period
+      where Year_Month = #{yearMonth}
+    </select>
+    
+    <select id="getAccountYearList" resultType="map">
+      SELECT
+        distinct Year
+      FROM
+        Sys_Account_Period
+      order by year
+    </select>
+
+</mapper>

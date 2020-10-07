@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="Sys_Operation">
+    <!-- 删除 -->
+    <delete id="deleteByPathUrl"  parameterType="string">
+        DELETE FROM Sys_Operation WHERE Path_Url= #{pathUrl}
+    </delete>
+    
+    <!-- 过滤查询-->
+    <select id="getOperationAuthList" resultType="map" parameterType="map">
+      select 
+        operation.id,
+        operation.path_url,
+        operation.Oper_Code,
+        operation.Oper_Text,
+        operAuth.Id as oper_Auth_Id,
+        case when operAuth.Id is null then 'N' else 'Y' end as Is_Auth
+      from Sys_Operation operation
+      left join sys_operation_auth operAuth
+        on operAuth.oper_id = operation.Id
+        and operAuth.sys_role_code in('${sysRoleCodes}')
+      where operation.path_url = #{pathUrl}
+    </select>
+    
+    <select id="getAllOperationList" resultType="com.gzhh.hrp.common.entity.Operation" parameterType="map">
+      select 
+        operation.id,
+        operation.path_url,
+        operation.Oper_Code,
+        operation.Oper_Text,
+        menu.Sys_menu_name as pathName
+      from Sys_Operation operation
+      left join Sys_menu menu on menu.Sys_menu_url = operation.path_url
+        
+    </select>
+    
+</mapper>

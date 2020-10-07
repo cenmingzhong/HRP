@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">  
+  
+<mapper namespace="Sys_Property"> 
+    <delete id="deleteByMid">
+        delete from sys_property_detail where mid = #{value}
+    </delete>
+    
+    <select id="getList" resultType="sysProperty" parameterType="string" flushCache="true">  
+      select 
+        ${@com.gzhh.hrp.tools.ClassTools@getTableColumn('','sysProperty')}
+      from sys_property with(nolock)
+    <where>
+        <if test="appKey !=null and appKey !='' ">
+           and App_Key = #{appKey}
+       </if>
+        <if test="propName !=null and propName !='' ">
+           and Prop_Name = #{propName}
+       </if>
+    </where>
+    </select>
+</mapper>

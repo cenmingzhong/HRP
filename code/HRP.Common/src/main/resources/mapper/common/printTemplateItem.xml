@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="Sys_PrintTemplateItem">
+    <delete id="deleteByTemplateCode">
+        DELETE FROM Sys_Print_Template_Item
+        WHERE Template_Code=#{value}
+    </delete>
+</mapper>

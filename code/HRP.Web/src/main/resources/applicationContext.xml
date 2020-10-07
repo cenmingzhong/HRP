@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:tx="http://www.springframework.org/schema/tx" 
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/tx  
+        http://www.springframework.org/schema/tx/spring-tx.xsd  
+        http://www.springframework.org/schema/aop        
+        http://www.springframework.org/schema/aop/spring-aop.xsd  
+        http://www.springframework.org/schema/context       
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://cxf.apache.org/jaxws
+        http://cxf.apache.org/schemas/jaxws.xsd
+        http://cxf.apache.org/jaxrs
+        http://cxf.apache.org/schemas/jaxrs.xsd"
+ >
+    <context:component-scan base-package="com.gzhh.hrp.**.service"/>  
+    <context:component-scan base-package="com.gzhh.hrp.**.dao"/> 
+    <!-- 导入外部的配置文件
+    <context:property-placeholder location="classpath:*.properties" file-encoding="UTF-8"/>
+    -->
+    <!-- <context:property-placeholder location="file:C:\config\jdbc.properties" file-encoding="UTF-8"/> -->
+    <bean id="configBean"   class="com.gzhh.hrp.extension.spring.CustomizedPropertyConfigurer">
+        <property name="location">   
+           <value>file:C:\config\jx_java.properties</value>   
+        </property>
+        <property name="fileEncoding">   
+           <value>UTF-8</value>   
+        </property>
+    </bean>
+    
+    <!-- 配置sessionFactory -->  
+    
+    <!-- 配置声名式事务管理（采用注解的方式）
+    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"> 
+        <property name="sessionFactory" ref="sessionFactory"/> 
+    </bean>  
+    <tx:annotation-driven transaction-manager="txManager"/> 
+    -->
+    <bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource">  
+      <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />  
+      <property name="url" value="jdbc:sqlserver://${jdbc.server};database=${jdbc.database};" />  
+      <property name="username" value="${jdbc.username}" />  
+      <property name="password" value="${jdbc.password}" />  
+      <property name="testWhileIdle" value="true" />  
+      <property name="testOnBorrow" value="true" />  
+      <property name="testOnReturn" value="false" />  
+      <property name="validationQuery" value="SELECT 1" />  
+      <property name="validationInterval" value="30000" />  
+      <property name="timeBetweenEvictionRunsMillis" value="30000" />  
+      <property name="maxActive" value="300" />  
+      <property name="minIdle" value="20" />  
+      <property name="maxWait" value="3000" />  
+      <property name="initialSize" value="20" />  
+      <property name="removeAbandonedTimeout" value="120" />  
+      <property name="removeAbandoned" value="true" />  
+      <property name="minEvictableIdleTimeMillis" value="30000" />  
+      <property name="jmxEnabled" value="true" />  
+    </bean>
+    
+    <!-- SessionFactory -->  
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"> 
+        <property name="dataSource" ref="dataSource" />  
+        <property name="packagesToScan" value="com.gzhh.hrp.*.entity" />  
+        <property name="hibernateProperties">  
+            <props>  
+                <prop key="hibernate.dialect">com.gzhh.hrp.extension.hibernate.SQLServerNativeDialect</prop>  
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>  
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>  
+                <prop key="hibernate.default_schema">dbo</prop>  
+                <prop key="hibernate.hbm2ddl.auto">update</prop>  
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>  
+                <prop key="hibernate.cache.use_query_cache">false</prop>  
+                <prop key="hibernate.cache.use_second_level_cache">false</prop>  
+                <prop key="hibernate.connection.autocommit">false</prop>  
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+            </props>  
+        </property>  
+    </bean>
+     
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">    
+        <property name="dataSource" ref="dataSource" />  
+        <!-- <property name="mapperLocations" value="file:C:\WorkSpace/Java/Code/HRP.Common/config/mapper/*.xml" />    -->
+        <property name="mapperLocations">
+            <array>
+                <value>classpath*:mapper/**/*.xml</value>
+            </array>
+        </property>
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+    </bean>  
+    
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">  
+        <constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+    </bean> 
+    
+    <!-- 事务的配置 -->  
+    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+    <bean class="com.gzhh.hrp.extension.spring.SpringContextUtil"></bean>
+    
+    <tx:annotation-driven transaction-manager="txManager" order="0"/>
+    
+    <aop:config>
+        <aop:pointcut id="bussinessService" expression="execution(* com.gzhh.hrp.**.service..*.*(..))" />
+        <aop:advisor pointcut-ref="bussinessService" advice-ref="txAdvice" order="100" />
+    </aop:config>
+    
+    <tx:advice id="txAdvice" transaction-manager="txManager" >
+        <tx:attributes>
+            <tx:method name="get*" propagation="SUPPORTS" />
+            <tx:method name="*" propagation="REQUIRED" />
+        </tx:attributes>
+    </tx:advice>
+</beans>

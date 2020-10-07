@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登录超时</title>
+<link rel="stylesheet" type="text/css" href="css/main.css" />
+<style type="text/css">
+#box {
+	width: 400px;
+	height: 200px;
+	margin-top: -100px;
+	margin-left: -200px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	border:1px #CBDDF1 solid;
+}
+#title 
+{
+    background:#73A2D6;
+    height:30px;
+    line-height:30px;
+    color:white;
+    font-size:14px;
+    padding-left:5px;
+}
+#body
+{
+    
+    height:140px;
+}
+
+#body table
+{
+    
+    height:100%;
+    width:100%;  
+}
+
+#msg
+{    
+    color:#4D81B2;
+    font-size:17px;  
+    font-weight:bold;
+}
+#foot
+{
+    background:#E6EEF7;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+	border-top:1px #CBDDF1 solid;
+	border-bottom:1px #CBDDF1 solid;
+	vertical-align:middle;
+}
+#foot input
+{
+    margin-top:4px;
+    height:22px;
+ }
+</style>
+<script type="text/javascript">
+    function getTopWin() {
+        var parentWin = window;
+
+        while(parentWin.dialogArguments){
+            parentWin = parentWin.dialogArguments;
+        }
+        while(parentWin.opener){
+            parentWin = parentWin.opener;
+        }
+        while(parentWin != parentWin.parent){
+            parentWin = parentWin.parent;
+        }
+           
+        if(parentWin == null){
+            parentWin = window;
+        }
+
+        return parentWin;
+    }
+    function returnToLogin() {
+        getTopWin().location.href = "toLogin.do";
+    }
+    function loadEvent() {  
+        document.getElementById("reload").focus();
+    }
+</script>
+</head>
+
+<body scroll="no" onload="loadEvent()">
+<div id="box">
+    <div id="title">
+        [系统提示]
+    </div>
+    <div id="body">
+        <table>
+            <tr>
+                <td style="width:140px;text-align:center;vertical-align:middle;"><img src="images/timeout.png" /></td>
+                <td style="width:260px;text-align:left;vertical-align:middle;"><label id="msg">会话已过期, 请重新登录</label></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="foot">
+        <input type="button" id="reload" value="重新登录" onclick="returnToLogin()"/>
+    </div>
+</div>
+</body>
+</html>

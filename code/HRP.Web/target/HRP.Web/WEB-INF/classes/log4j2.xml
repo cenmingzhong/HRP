@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration monitorInterval="30" status="All">
+    <properties>
+      <property name="LOG_HOME">c:/newlogs</property>
+    </properties>
+    <appenders>
+        
+        <RollingFile name="debugLog" fileName="c:/newlogs/debug.log" filePattern="c:/newlogs/debug_%d{yyyy-MM-dd}_%i.log">
+            <PatternLayout pattern="%d %p %c:%L   %m%n"/>
+            <Filters>
+               <!-- <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>   -->
+               <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="51200 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+        
+        <RollingFile name="errorLog" fileName="c:/newlogs/error.log" filePattern="c:/newlogs/error_%d{yyyy-MM-dd}_%i.log">
+            <PatternLayout pattern="%d %p %c:%L   %m%n"/>
+            <Filters>
+               <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="51200 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+        
+    </appenders>
+    
+    <loggers>
+        <!--建立一个默认的root的logger-->
+        <root level="Debug">
+            <appender-ref ref="debugLog"/>
+            <appender-ref ref="errorLog"/>
+        </root> 
+        
+    </loggers>
+
+</configuration>

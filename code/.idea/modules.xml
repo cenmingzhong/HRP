@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/HRP.iml" filepath="$PROJECT_DIR$/HRP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HRP.Common/HRP.Common.iml" filepath="$PROJECT_DIR$/HRP.Common/HRP.Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HRP.Tools/HRP.Tools.iml" filepath="$PROJECT_DIR$/HRP.Tools/HRP.Tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HRP.Web/HRP.Web.iml" filepath="$PROJECT_DIR$/HRP.Web/HRP.Web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HRP.Work/HRP.Work.iml" filepath="$PROJECT_DIR$/HRP.Work/HRP.Work.iml" />
+    </modules>
+  </component>
+</project>

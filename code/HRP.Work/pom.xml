@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" 
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.gzhh</groupId>
+    <artifactId>HRP</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>HRP.Work</artifactId>
+  <name>项目工时模块</name>
+  <description>项目工时模块</description>
+  <dependencies>
+    <dependency>
+      <groupId>com.gzhh</groupId>
+      <artifactId>HRP.Tools</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.gzhh</groupId>
+      <artifactId>HRP.Common</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+	<dependency>
+	    <groupId>org.apache.tomcat</groupId>
+	    <artifactId>tomcat-jdbc</artifactId>
+	    <version>8.0.53</version>
+	</dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd"> 
+
+<mapper namespace="KPI_workload_item">
+     <select id="getListByOther" resultType="map" parameterType="map">
+		select 
+			item.id,
+			item.item_name,
+			item.type_id,
+			item.year,
+			item.item_code,
+			item.score,
+			type.name as typeName
+		from KPI_workload_item item
+		left join KPI_workload_type type 
+			on type.id = item.type_id
+		<where>
+			<if test="id != null and id != ''">
+				and item.id = #{id}
+			</if>
+			<if test="nameInfo != null and nameInfo != ''">
+				and item.item_name like '%${nameInfo}%'
+			</if>
+			<if test="typeId != null and typeId != ''">
+				and item.type_id = #{typeId}
+			</if>
+			<if test="itemCode != null and itemCode != ''">
+				and item.item_code = #{itemCode}
+			</if>
+			<if test="year != null">
+				and item.year = #{year}
+			</if>
+		</where>
+	</select>
+</mapper>

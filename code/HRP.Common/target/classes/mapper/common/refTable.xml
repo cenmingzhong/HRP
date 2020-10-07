@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+  
+<mapper namespace="Sys_RefTable">  
+  <select id="getIdByType" resultType="map" parameterType="map">
+      <if test="F != null and F != ''">  
+        select top 1 ${pkColumn} from ${tableName} with(nolock) where 1=1 ${extSql} order by ${orderColumn}
+      </if> 
+      <if test="P != null and P != ''">  
+        select top 1 ${pkColumn} from ${tableName} with(nolock) where #{id}>${orderColumn} ${extSql} order by ${orderColumn} desc
+      </if> 
+      <if test="N != null and N != ''">  
+        select top 1 ${pkColumn} from ${tableName} with(nolock) where ${orderColumn}>#{id} ${extSql} order by ${orderColumn}
+      </if> 
+      <if test="L != null and L != ''">  
+        select top 1 ${pkColumn} from ${tableName} with(nolock) where 1=1 ${extSql} order by ${orderColumn} desc
+      </if> 
+  </select>
+  
+  <select id="getColMaxValue" resultType="string" parameterType="map">
+      select max(${columnName}) from ${tableName} with(nolock) where 1=1 ${extSql}
+  </select>
+      
+</mapper> 

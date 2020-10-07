@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="HRP.Web:war">
+    <output-path>$PROJECT_DIR$/HRP.Web/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>HRP.Web</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="HRP.Web.war">
+      <element id="artifact" artifact-name="HRP.Web:war exploded" />
+    </root>
+  </artifact>
+</component>

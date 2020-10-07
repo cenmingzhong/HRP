@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html>
+<html class="ui-page-login">
+    <head>
+        <meta charset="utf-8">
+        <title>登录</title>
+        
+
+
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <link rel="shortcut icon" type="image/ico" href="/ecbm/images/favicon.ico">
+    
+    <script type="text/javascript">
+        var contextPath = '/ecbm';
+    </script>
+    
+    <style type="text/css">
+    #loading-mask{
+        background-color:white;
+        height:100%;
+        position:fixed;
+        left:0;
+        top:0;
+        width:100%;
+        z-index:20000;
+    }
+    #loading{
+        height:auto;
+        position:fixed;
+        left:50%;
+        top:45%;
+        padding:2px;
+        z-index:20001;
+        margin-left: -16px;
+        margin-top: -20px;  
+    }
+    #loading .loading-indicator{
+        background:white;
+        color:#444;
+        font: Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+        margin:0;
+        padding:3px;
+        border:1px #cccccc solid;
+        background:#F5FCE5;
+        text-align:center;
+    }
+    #loading-msg {
+        font-size: 12px;
+        font-weight:normal;
+    }
+    </style>
+    <div id="loading-mask" style="display:none"></div>
+    <div id="loading" style="display:none">
+        <div class="loading-indicator">
+            <img src="/ecbm/images/progress.gif" width="20" height="20"/>
+        </div>
+    </div>
+    <div id="messageBox" style="display:none;border:1px #eee solid;height:30px;position:fixed;top:45%;z-index:20002;left:50%;background:url(/ecbm/images/ok.png) #f7f7f7 no-repeat;padding-left:30px;padding-right:10px;background-position:5px center;border-radius: 5px 5px 5px 5px;-webkit-border-radius: 5px 5px 5px 5px; -moz-border-radius: 5px 5px 5px 5px;filter:alpha(opacity=100);-moz-opacity:1;opacity:1;margin-left: -48px;">
+        <table style="height:30px">
+            <tr>
+                <td><div>操作成功</div></td>
+            </tr>
+        </table>
+    </div>
+    <link rel="stylesheet"  type="text/css"  href='/ecbm/pages/mobile/css/mui.min.css?t=20181010222421' />
+    <link rel="stylesheet"  type="text/css"  href='/ecbm/pages/mobile/css/iconfont.css?t=20181010222421' />
+    <link rel="stylesheet"  type="text/css"  href="/ecbm/css/fontawesome-4.2.0_ie7/css/font-awesome.css" media="all" />
+    <script type="text/javascript" src='/ecbm/js/jquery-1.11.0.min.js' ></script>
+    <script type="text/javascript" src='/ecbm/js/jquery-jtemplates.js' ></script>
+    <script type="text/javascript" src="/ecbm/pages/mobile/js/mui.min.js"></script>
+    <script type="text/javascript" src="/ecbm/pages/mobile/js/mui.view.js"></script>
+    <script type="text/javascript" src="/ecbm/pages/mobile/js/mobileDialog.js"></script>
+    <script type="text/javascript" src="/ecbm/pages/mobile/js/mobileCommon.js?t=20181010222421"></script>
+    
+    <script type="text/javascript">
+        var isAjaxing = false;
+        var isWindowLoad = true;
+        var isLockScreen = true;
+        function GetQueryString(name)
+        {
+             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+             var r = window.location.search.substr(1).match(reg);
+             if(r!=null)return  unescape(r[2]); return null;
+        }
+        window.onload = function () {
+            window.setTimeout(function(){
+                //closeLocker(true);
+            },10)    
+            isWindowLoad = false;
+        }
+        //处理键盘事件
+        function cancelBackSpace(e) {
+            var ev = e || window.event; //获取event对象
+            var obj = ev.target || ev.srcElement; //获取事件源
+            var t = obj.type || obj.getAttribute('type'); //获取事件源类型
+            if (ev.keyCode == 8) {
+                if (t != "password" && t != "text" && t != "textarea") {
+                    return false;
+                }
+                if (obj.readOnly == true || obj.disabled == true) {
+                    return false;
+                }
+            }
+        }
+        
+        //禁止后退键 作用于Firefox、Opera
+        document.onkeypress = cancelBackSpace;
+        //禁止后退键  作用于IE、Chrome
+        document.onkeydown = cancelBackSpace;
+        
+    </script>
+        <link href="/ecbm/pages/mobile/css/style.css" rel="stylesheet" />
+        <style type="text/css">
+            .area {
+                margin: 20px auto 0px auto;
+            }
+            
+            
+            .mui-content-padded {
+                margin-top: 25px;
+            }
+            
+            .mui-btn {
+                padding: 10px;
+            }
+        </style>
+        <script>
+            (function($, doc) {
+                $.init({
+                    statusBarBackground: '#f7f7f7'
+                });
+                $.ready(function() {
+                    doc.getElementById('login').addEventListener('tap', function(event) {
+                    	
+                    	//doc.getElementById('form').setAttribute("action","toMobileLogin.mo?url="+GetQueryString("url");
+                    	//console.log(doc.getElementById('form').getAttribute("action"))
+                        doc.getElementById("form").submit();
+                    });
+                });
+
+            }(mui, document));
+        </script>
+    </head>
+
+    <body>
+        <header class="mui-bar mui-bar-nav">
+            <h1 class="mui-title">登录超时</h1>
+        </header>
+        <div class="mui-content">
+            <div  class="mui-content-padded" style="text-align:center;">
+                <img src="images/timeout.png" />
+            </div>
+            <div class="mui-content-padded">
+                <form id="form" action="toMobileLogin.mo">
+                    <button id='login' class="mui-btn mui-btn-block mui-btn-primary">重新登录</button>
+                </form>
+                
+            </div>
+        </div>
+        
+    </body>
+
+</html>
