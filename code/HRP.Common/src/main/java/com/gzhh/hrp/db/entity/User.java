@@ -1,11 +1,46 @@
 package com.gzhh.hrp.db.entity;
 
-public class User{
+import com.gzhh.hrp.common.Title;
+import com.gzhh.hrp.common.entity.BaseEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="DB_User")
+@Title("用户")
+public class User extends BaseEntity{
+
+    @Id
+    @Column(name="Teacher_Number",length=50)
+    @Title("教师编号")
     private Integer teacherNumber;
+
+
+    @Column(name="Teacher_Name",length=50)
+    @Title("教师名字")
     private String teacherName;
+
+
+    @Column(name="Position_Number")
+    @Title("岗位编号")
     private  Integer positionNumber;
+
+
+    @Column(name="Teach_Position_Type")
+    @Title("教学岗位类型")
     private String teachPositionType;
+
+
+    @Column(name="Position_Level")
+    @Title("岗位级别")
     private Integer positionLevel;
+
+
+    @Column(name="Permission_Number")
+    @Title("权限编号")
     private Integer permissionNumber;
 
     public Integer getTeacherNumber() {
