@@ -220,6 +220,7 @@ function searchClick() {
         dialogCallBack: function () {
            var data = $("#infoForm").form2json(); 
             loadPersonList(data);
+
         }
     });
 }

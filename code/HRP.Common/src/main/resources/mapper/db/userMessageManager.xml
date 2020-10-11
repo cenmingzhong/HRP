@@ -8,7 +8,7 @@
         from DB_User
         <where>
             <if test="teacherNumber!=null and teacherNumber!=''">
-                and Teacher_Number = #{teacherNumber}
+                Teacher_Number = #{teacherNumber}
             </if>
 
         </where>

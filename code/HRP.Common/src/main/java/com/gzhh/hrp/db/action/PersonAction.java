@@ -58,18 +58,21 @@ public class PersonAction extends BaseAction{
     @RequestMapping("getPersonListByRole")
     @ResponseBody
     public ResultView getPersonListByRole(String roleCode){
-        return personService.getPersonListByRole(roleCode);
+
+	    return personService.getPersonListByRole(roleCode);
     }
     
     @RequestMapping("importPerson")
     @ResponseBody
     public ResultView importPerson(UploadFile file) {
-        return personService.importPerson(file);
+
+	    return personService.importPerson(file);
     }
     
     @RequestMapping("getPersonCode4ArgPerson")
     @ResponseBody
     public ResultView getPersonCode4ArgPerson(){
-        return personService.getPersonCode4ArgPerson();
+
+	    return personService.getPersonCode4ArgPerson();
     }
 }

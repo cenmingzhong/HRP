@@ -1,6 +1,7 @@
 package com.gzhh.hrp.db.service.impl;
 
 
+import com.gzhh.hrp.common.ValidateException;
 import com.gzhh.hrp.common.service.impl.BaseService;
 import com.gzhh.hrp.db.dao.UserMessageManagerDao;
 import com.gzhh.hrp.db.entity.User;
@@ -23,12 +24,65 @@ public class UserMessageManagerServiceImpl extends BaseService implements UserMe
 
     @Autowired
     private UserMessageManagerDao userMessageManagerDao;
-    @Override
-    public void deleteUser(List<String> teacherNumbers) {
 
+    @Override
+    public ResultView getInfo(Integer teacherNumber) {
+        ResultView resultView = new ResultView();
+        User user = userMessageManagerDao.get(teacherNumber);
+        resultView.putData("user", user);
+        return resultView;
     }
 
+    /**
+     * 删除用户
+     * @param teacherNumbers
+     */
+    @Override
+    public void deleteUser(List<Integer> teacherNumbers) {
+        for(Integer teacherNumber : teacherNumbers){
+            User user = userMessageManagerDao.get(teacherNumber);
+            userMessageManagerDao.delete(user);
+        }
+    }
 
+    /**
+     * 保存用户
+     * @param user
+     */
+    @Override
+    public void save(User user) {
+        if (user.getIsNew()){
+            add(user);
+        }else{
+            update(user);
+        }
+    }
+
+    /**
+     * 更新用户
+     * @param user
+     */
+    private void update(User user) {
+        userMessageManagerDao.update(user); //在数据库中更新数据
+    }
+
+    /**
+     * 添加用户
+     * @param user
+     */
+    private void add(User user) {
+        if(userMessageManagerDao.get(user.getTeacherNumber())!=null){
+            throw new ValidateException(String.format("人员编码%s已存在，保存失败",user.getTeacherNumber()));
+        }
+
+        userMessageManagerDao.insert(user);//在数据库中插入数据
+    }
+
+    /**
+     * 得到用户列表
+     * @param params
+     * @return
+     */
     public ResultView getList(HashMap<String, Object> params) {
         ResultView resultView = new ResultView();
         List<Map> userList= userMessageManagerDao.getUserList(params);
