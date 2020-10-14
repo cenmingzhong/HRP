@@ -85,9 +85,9 @@ public class UserMessageManagerServiceImpl extends BaseService implements UserMe
      */
     public ResultView getList(HashMap<String, Object> params) {
         ResultView resultView = new ResultView();
-        List<Map> userList= userMessageManagerDao.getUserList(params);
+        List<Map> userMessageManagerDaoUserList= userMessageManagerDao.getUserList(params);
 
-        resultView.putData("userList",userList);
+        resultView.putData("userMessageManagerList",userMessageManagerDaoUserList);
         return resultView;
     }
 

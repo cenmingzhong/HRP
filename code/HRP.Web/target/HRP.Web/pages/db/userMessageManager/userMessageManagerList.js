@@ -79,12 +79,20 @@ function initToolBar() {
                      });
                 })
             }
-        }, '-', {
+        }, {
+            id:"refresh",
+            text:"刷新",
+            iconCls:"icon-reload",
+            handler:function () {
+                loadUserList();
+            }
+        }, {
             id: "search",
             text: "查询",
             iconCls: "icon-search",
             handler: function () {
                 searchClick();
+
             }
         }]
     });
@@ -129,10 +137,10 @@ function loadDeptTree() {
                      deptList[i].deptCodeName = "("+deptList[i].deptCode+")"+ deptList[i].deptName;
                  }
 
-                 deptList.push({ 
-                     deptCode: "root", 
+                 deptList.push({
+                     deptCode: "root",
                      deptCodeName: "教师列表",
-                     deptParent: "" 
+                     deptParent: ""
                  });
                  $.fn.zTree.init($("#deptTree"), setting, deptList);
 
@@ -190,6 +198,7 @@ function searchClick() {
         dialogCallBack: function () {
            var data = $("#infoForm").form2json();
             loadUserList(data);
+
         }
     });
 }
@@ -205,7 +214,7 @@ function loadUserList(data) {
     }
     if(!data){    
         data = {};
-        data.deptCode = deptCode;
+        data.deptCode = deptCode; //把部门编号传入data
     }
     ajaxSubmit({
         url: contextPath + "/db/userMessageManager/getList.do",
@@ -214,7 +223,7 @@ function loadUserList(data) {
         },
         success: function (result) {
             if (result.isOk == "Y") {
-                $('#dataGrid').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', result.data.personList);
+                $('#dataGrid').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', result.data.userMessageManagerList);
             }
         }
     });

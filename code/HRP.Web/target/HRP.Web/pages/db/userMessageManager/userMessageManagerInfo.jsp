@@ -45,9 +45,13 @@
                             <td>
                                 <input type="text" id="positionNumber" name="positionNumber" data-rule-required="true" data-msg-required="请输入岗位编号" />
                             </td>
+                            <td>权限编号：</td>
+                            <td>
+                                <input type="text" id="permissionNumber" name="permissionNumber" data-rule-required="true" data-msg-required="请输入权限编号"/>
+                            </td>
                             <td>教学岗位类型：</td>
                             <td>
-                                <input type="text" id="teachPositionType" name="teachPositionType" readonly="readonly" />
+                                <input type="text" id="teachPositionType" name="teachPositionType"  />
                             </td>
                         </tr>
                         <tr>
@@ -55,10 +59,7 @@
                             <td>
                                 <input type="text" id="positionLevel" name="positionLevel" />
                             </td>
-                            <td>权限编号：</td>
-                            <td>
-                                <input type="text" id="permissionNumber" name="permissionNumber" />
-                            </td>
+
                         </tr>
                     </tbody>
                 </table>

@@ -36,6 +36,7 @@ public class SysUserAction extends BaseAction{
     @ResponseBody
     @RequestMapping("getInfo")
     public ResultView getInfo(String sysUserCode) {
+
         return userService.getInfo(sysUserCode);
     }
     

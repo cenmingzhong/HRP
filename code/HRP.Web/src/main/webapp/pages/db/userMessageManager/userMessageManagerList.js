@@ -223,7 +223,7 @@ function loadUserList(data) {
         },
         success: function (result) {
             if (result.isOk == "Y") {
-                $('#dataGrid').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', result.data.userList);
+                $('#dataGrid').datagrid({ loadFilter: pagerFilter }).datagrid('loadData', result.data.userMessageManagerList);
             }
         }
     });
