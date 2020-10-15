@@ -28,12 +28,23 @@ public class PasswordManagerServiceImpl extends BaseService implements PasswordM
     private PasswordManagerDao passwordManagerDao;
 
     @Override
-    public ResultView getInfo(Integer teacherNumber) {
+    public ResultView getInfo(String teacherNumber) {
         ResultView resultView = new ResultView();
         Password password = passwordManagerDao.get(teacherNumber);
         resultView.putData("password",password);
         return resultView;
 
+    }
+
+    @Override
+    public ResultView delete(String teacherNumber) {
+        ResultView resultView = new ResultView();
+        Password password = passwordManagerDao.get(teacherNumber);
+        if(password==null){
+            throw new ValidateException("该用户已删除");
+        }
+        passwordManagerDao.delete(teacherNumber);
+        return resultView;
     }
 
     @Transactional
@@ -57,7 +68,7 @@ public class PasswordManagerServiceImpl extends BaseService implements PasswordM
     private void add(Password password) {
 
 
-        if(password.getTeacherNumber()==null||password.getTeacherNumber().equals("")){
+        if(password.getTeacherNumber()==null||password.getTeacherNumber().length()<=0){
             throw new ValidateException("教师编号不能为空");
         }else if(passwordManagerDao.get(password.getTeacherNumber())!=null){
             throw new ValidateException("教师编号："+password.getTeacherNumber()+"不能重复");
@@ -73,17 +84,20 @@ public class PasswordManagerServiceImpl extends BaseService implements PasswordM
             throw new ValidateException("教师账户："+ password.getTeacherAccount()+"不能重复");
 
         }
-        password.setTeacherPassword(MD5Util.MD5Encode(password.getTeacherPassword(),"UTF-8"));
+        //password.setTeacherPassword(MD5Util.MD5Encode(password.getTeacherPassword(),"UTF-8"));
         password.setCreateTime(new Date());
         passwordManagerDao.insert(password);
 
     }
 
     private void update(Password password) {
-        if (password.getTeacherAccount()==null||password.getTeacherAccount().length()<=0){
+        if(password.getTeacherNumber()==null||password.getTeacherNumber().length()<=0) {
+            throw new ValidateException("教师编号不能为空");
+        }else if(password.getTeacherName()==null||password.getTeacherName().length()<=0){
+            throw new ValidateException("教师名字不能为空");
+        }else if(password.getTeacherAccount()==null||password.getTeacherAccount().length()<=0){
             throw new ValidateException("教师账号不能为空");
-        }else if(passwordManagerDao.get(password.getTeacherAccount())!=null){
-            throw new ValidateException("教师账号："+ password.getTeacherAccount()+"不能重复");
+
         }
         password.setCreateTime(password.getCreateTime());
         passwordManagerDao.update(password);

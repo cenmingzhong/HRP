@@ -6,12 +6,22 @@
         select
         *
         from DB_User
-        <where>
-            <if test="teacherNumber!=null and teacherNumber!=''">
-                Teacher_Number = #{teacherNumber}
-            </if>
+<!--        <where>-->
+<!--            <if test="teacherNumber!=null and teacherNumber!=''">-->
+<!--                Teacher_Number = #{teacherNumber}-->
+<!--            </if>-->
 
-        </where>
+<!--        </where>-->
+    </select>
+
+    <select id="getPermissionUserList" resultType="map" parameterType="map">
+        select
+            Teacher_Number,
+            Teacher_Name,
+            Permission_Number
+        from
+            DB_User
+
     </select>
 
 </mapper>

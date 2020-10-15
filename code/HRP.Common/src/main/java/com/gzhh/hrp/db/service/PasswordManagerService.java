@@ -14,5 +14,7 @@ public interface PasswordManagerService {
 
     public ResultView getList(HashMap<String, Object> filter);
 
-    public ResultView getInfo(Integer teacherNumber);
+    public ResultView getInfo(String teacherNumber);
+
+    public  ResultView delete(String teacherNumber);
 }

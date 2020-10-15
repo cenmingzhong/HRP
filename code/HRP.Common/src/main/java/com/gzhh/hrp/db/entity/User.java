@@ -16,7 +16,7 @@ public class User extends BaseEntity{
     @Id
     @Column(name="Teacher_Number",length=50)
     @Title("教师编号")
-    private Integer teacherNumber;
+    private String teacherNumber;
 
 
     @Column(name="Teacher_Name",length=50)
@@ -41,13 +41,13 @@ public class User extends BaseEntity{
 
     @Column(name="Permission_Number")
     @Title("权限编号")
-    private Integer permissionNumber;
+    private String permissionNumber;
 
-    public Integer getTeacherNumber() {
+    public String getTeacherNumber() {
         return teacherNumber;
     }
 
-    public void setTeacherNumber(Integer teacherNumber) {
+    public void setTeacherNumber(String teacherNumber) {
         this.teacherNumber = teacherNumber;
     }
 
@@ -83,18 +83,18 @@ public class User extends BaseEntity{
         this.positionLevel = positionLevel;
     }
 
-    public Integer getPermissionNumber() {
+    public String getPermissionNumber() {
         return permissionNumber;
     }
 
-    public void setPermissionNumber(Integer permissionNumber) {
+    public void setPermissionNumber(String permissionNumber) {
         this.permissionNumber = permissionNumber;
     }
 
     public User() {
     }
 
-    public User(Integer teacherNumber, String teacherName, Integer positionNumber, String teachPositionType, Integer positionLevel, Integer permissionNumber) {
+    public User(String teacherNumber, String teacherName, Integer positionNumber, String teachPositionType, Integer positionLevel, String permissionNumber) {
         this.teacherNumber = teacherNumber;
         this.teacherName = teacherName;
         this.positionNumber = positionNumber;

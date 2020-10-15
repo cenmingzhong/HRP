@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserMessageManagerService {
     public void userGroupSetting();//用户权限设置
     public void addUser(Integer userNumber);//添加用户
-    public void deleteUser(List<Integer> teacherNumbers);//删除用户
+    public void deleteUser(List<String> teacherNumbers);//删除用户
     public void updateUser(Integer userNumber);//修改用户
     public User queryUser(Integer userNumber);//查询用户
     public void updateUserPassword(Integer userNumber,String password);//修改密码
@@ -22,5 +22,5 @@ public interface UserMessageManagerService {
 
     public void save(User user);//保存用户
 
-    public ResultView getInfo(Integer teacherNumber);//通过教师编号得到教师
+    public ResultView getInfo(String teacherNumber);//通过教师编号得到教师
 }

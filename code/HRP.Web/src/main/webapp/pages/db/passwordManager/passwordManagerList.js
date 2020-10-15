@@ -22,12 +22,12 @@ function initToolBar() {
             iconCls: "icon-edit",
             handler: function () {
                 var selectRow = $('#sysUserGrid').datagrid('getSelected');
-                if (selectRow == null || selectRow.teachrNumber == "") {
+                if (selectRow == null || selectRow.teacherNumber == "") {
                     alertError("请选择一个用户!");
                     return;
                 }
                 openDialog({
-                    url: "toInfo.do?teacherNumber=" + selectRow.teacherNumer,
+                    url: "toInfo.do?teacherNumber=" + selectRow.teacherNumber,
                     dialogHeight: 520,
                     dialogWidth: 950,
                     dialogCallBack: function () {

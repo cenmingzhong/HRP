@@ -56,7 +56,7 @@
 	   <sysMenu menuCode="USER" menuType="module" menuName="用户管理模块" menuIcon="images/icon04.png">
 
 		   <sysMenu menuCode="USER_01" menuName="权限管理">
-			   <sysMenu menuCode="USER_01_01" menuName="权限管理" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="USER_01_01" menuName="权限管理" menuUrl="db/permissionManager/toList.do"/>
 		   </sysMenu>
 		   <sysMenu menuCode="USER_02" menuName="个人信息管理">
 			   <sysMenu menuCode="USER_02_01" menuName="密码管理" menuUrl="db/passwordManager/toList.do"/>
@@ -71,7 +71,7 @@
 	   <sysMenu menuCode="DATA" menuType="module" menuName="数据管理模块" menuIcon="images/icon04.png">
 
 		   <sysMenu menuCode="DATA_01" menuName="数据库管理">
-			   <sysMenu menuCode="DATA_01_01" menuName="数据库更新" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="DATA_01_01" menuName="数据库更新" menuUrl="common/dataBaseBackupAndRecovery/toList.do"/>
 			   <sysMenu menuCode="DATA_01_02" menuName="数据库备份" menuUrl="kpi/setting/workloadType/toList.do"/>
 		   </sysMenu>
 	   </sysMenu>

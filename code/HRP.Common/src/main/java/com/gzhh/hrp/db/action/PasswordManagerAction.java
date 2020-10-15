@@ -41,9 +41,16 @@ public class PasswordManagerAction extends BaseAction {
 
     @ResponseBody
     @RequestMapping("/getInfo")
-    public ResultView getInfo(Integer teacherNumber){
+    public ResultView getInfo(String teacherNumber){
         ResultView result = passwordManagerService.getInfo(teacherNumber);
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/delete")
+    public ResultView delete(String teacherNumber){
+        passwordManagerService.delete(teacherNumber);
+        return outSuccess("删除成功");
     }
 
 }

@@ -31,7 +31,7 @@ public class UserMessageManagerAction extends BaseAction {
      */
     @ResponseBody
     @RequestMapping("delete")
-    public ResultView delete(List<Integer> teacherNumbers){
+    public ResultView delete(List<String> teacherNumbers){
         userMessageManagerService.deleteUser(teacherNumbers);
         return outSuccess("删除成功");
     }
@@ -50,7 +50,7 @@ public class UserMessageManagerAction extends BaseAction {
 
     @ResponseBody
     @RequestMapping("getInfo")
-    public ResultView getInfo(Integer teacherNumber){
+    public ResultView getInfo(String teacherNumber){
         ResultView result = userMessageManagerService.getInfo(teacherNumber);
         return result;
     }

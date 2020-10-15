@@ -2,7 +2,7 @@
 $(document).ready(function () {
     initToolBar();
     initGrid(); //初始化table
-    loadDeptTree();
+     // loadDeptTree();
     loadUserList();
 });
 //初始化工具栏
@@ -98,61 +98,61 @@ function initToolBar() {
     });
 }
 
-function loadDeptTree() {
-    var setting = {
-        view: {
-            dblClickExpand: true,
-            showLine: true,
-            selectedMulti: false
-        },
-        check: {
-            enable: false
-        },
-        data: {
-            key: {
-                name: "deptCodeName"
-            },
-            simpleData: {
-                enable: true,
-                idKey: "deptCode",
-                pIdKey: "deptParent",
-                rootPId: ""
-            }
-        },
-        callback: {
-            onClick: function (e, treeId, treeNode) {
-                loadUserList();
-            }
-        }
-    };
-    ajaxSubmit({
-        url:contextPath+"/db/dept/getList.do",
-         success: function (result) {
-             if (result.isOk == "Y") {
-                 var deptList = result.data.deptList;
-                 for(var i = 0 ; i < deptList.length; i++){
-                     if(deptList[i].deptParent =="" || deptList[i].deptParent == null){
-                         deptList[i].deptParent= "root"
-                     }
-                     deptList[i].deptCodeName = "("+deptList[i].deptCode+")"+ deptList[i].deptName;
-                 }
-
-                 deptList.push({
-                     deptCode: "root",
-                     deptCodeName: "教师列表",
-                     deptParent: ""
-                 });
-                 $.fn.zTree.init($("#deptTree"), setting, deptList);
-
-                 var treeObj = $.fn.zTree.getZTreeObj("deptTree");
-                 var nodes = treeObj.getNodes();
-                 treeObj.expandNode(nodes[0], true, false, false);
-
-             }
-         }
-     });
-     $.fn.zTree.init($("#deptTree"), setting, []);
-}
+// function loadDeptTree() {
+//     var setting = {
+//         view: {
+//             dblClickExpand: true,
+//             showLine: true,
+//             selectedMulti: false
+//         },
+//         check: {
+//             enable: false
+//         },
+//         data: {
+//             key: {
+//                 name: "deptCodeName"
+//             },
+//             simpleData: {
+//                 enable: true,
+//                 idKey: "deptCode",
+//                 pIdKey: "deptParent",
+//                 rootPId: ""
+//             }
+//         },
+//         callback: {
+//             onClick: function (e, treeId, treeNode) {
+//                 loadUserList();
+//             }
+//         }
+//     };
+//     ajaxSubmit({
+//         url:contextPath+"/db/dept/getList.do",
+//          success: function (result) {
+//              if (result.isOk == "Y") {
+//                  var deptList = result.data.deptList;
+//                  for(var i = 0 ; i < deptList.length; i++){
+//                      if(deptList[i].deptParent =="" || deptList[i].deptParent == null){
+//                          deptList[i].deptParent= "root"
+//                      }
+//                      deptList[i].deptCodeName = "("+deptList[i].deptCode+")"+ deptList[i].deptName;
+//                  }
+//
+//                  deptList.push({
+//                      deptCode: "root",
+//                      deptCodeName: "教师列表",
+//                      deptParent: ""
+//                  });
+//                  $.fn.zTree.init($("#deptTree"), setting, deptList);
+//
+//                  var treeObj = $.fn.zTree.getZTreeObj("deptTree");
+//                  var nodes = treeObj.getNodes();
+//                  treeObj.expandNode(nodes[0], true, false, false);
+//
+//              }
+//          }
+//      });
+//      $.fn.zTree.init($("#deptTree"), setting, []);
+// }
 
 
 //初始化table
@@ -205,17 +205,17 @@ function searchClick() {
 
 //加载人员数据
 function loadUserList(data) {
-    var selectedNodes = $.fn.zTree.getZTreeObj("deptTree").getSelectedNodes();
-    var deptCode ="";
-    if (selectedNodes.length > 0) {
-        if(selectedNodes[0].deptCode!= "root"){
-            deptCode = selectedNodes[0].deptCode;
-        }
-    }
-    if(!data){    
-        data = {};
-        data.deptCode = deptCode; //把部门编号传入data
-    }
+    // var selectedNodes = $.fn.zTree.getZTreeObj("deptTree").getSelectedNodes();
+    // var deptCode ="";
+    // if (selectedNodes.length > 0) {
+    //     if(selectedNodes[0].deptCode!= "root"){
+    //         deptCode = selectedNodes[0].deptCode;
+    //     }
+    // }
+    // if(!data){
+    //     data = {};
+    //     data.deptCode = deptCode; //把部门编号传入data
+    // }
     ajaxSubmit({
         url: contextPath + "/db/userMessageManager/getList.do",
         data: { 

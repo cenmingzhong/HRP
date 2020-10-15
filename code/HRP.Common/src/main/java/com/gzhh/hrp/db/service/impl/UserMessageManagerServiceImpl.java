@@ -26,7 +26,7 @@ public class UserMessageManagerServiceImpl extends BaseService implements UserMe
     private UserMessageManagerDao userMessageManagerDao;
 
     @Override
-    public ResultView getInfo(Integer teacherNumber) {
+    public ResultView getInfo(String teacherNumber) {
         ResultView resultView = new ResultView();
         User user = userMessageManagerDao.get(teacherNumber);
         resultView.putData("user", user);
@@ -38,8 +38,8 @@ public class UserMessageManagerServiceImpl extends BaseService implements UserMe
      * @param teacherNumbers
      */
     @Override
-    public void deleteUser(List<Integer> teacherNumbers) {
-        for(Integer teacherNumber : teacherNumbers){
+    public void deleteUser(List<String> teacherNumbers) {
+        for(String teacherNumber : teacherNumbers){
             User user = userMessageManagerDao.get(teacherNumber);
             userMessageManagerDao.delete(user);
         }
@@ -63,6 +63,7 @@ public class UserMessageManagerServiceImpl extends BaseService implements UserMe
      * @param user
      */
     private void update(User user) {
+
         userMessageManagerDao.update(user); //在数据库中更新数据
     }
 

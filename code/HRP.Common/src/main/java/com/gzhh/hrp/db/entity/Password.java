@@ -15,7 +15,7 @@ public class Password extends BaseEntity{
 
     @Id
     @Column(name="Teacher_Number")
-    private Integer teacherNumber;
+    private String teacherNumber;
 
 
     @Column(name = "Teacher_Name")
@@ -30,16 +30,16 @@ public class Password extends BaseEntity{
     @Column(name = "Create_Time")
     private Date createTime;
 
-    public String getTeacherName() {
-        return teacherName;
-    }
-
-    public Integer getTeacherNumber() {
+    public String getTeacherNumber() {
         return teacherNumber;
     }
 
-    public void setTeacherNumber(Integer teacherNumber) {
+    public void setTeacherNumber(String teacherNumber) {
         this.teacherNumber = teacherNumber;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
     }
 
     public void setTeacherName(String teacherName) {
@@ -68,9 +68,6 @@ public class Password extends BaseEntity{
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public Password() {
     }
 
     @Override

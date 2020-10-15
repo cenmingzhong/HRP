@@ -92,15 +92,15 @@
     
     <script type="text/javascript" src="<%=contextPath %>/js/common.js?t=<%=version %>"></script>
     <script type="text/javascript" src='<%=contextPath %>/js/commonRefer.js?t=<%=version %>' ></script>
-        <%-- <script type="text/javascript" src="<%=contextPath %>/js/commonPrint.js?t=<%=version %>"></script> --%>
+         <script type="text/javascript" src="<%=contextPath %>/js/commonPrint.js?t=<%=version %>"></script>
     <script type="text/javascript" src="<%=contextPath %>/js/tab.js"></script>
     <script type="text/javascript" src="<%=contextPath %>/js/jquery.dropgrid.js?t=<%=version %>"></script>
     <script type="text/javascript" src="<%=contextPath %>/js/jquery-ajaxfileupload.js"></script>
-    <%-- <script type="text/javascript" src="<%=contextPath %>/js/commonRefer.js?t=<%=version %>"></script> --%>
+     <script type="text/javascript" src="<%=contextPath %>/js/commonRefer.js?t=<%=version %>"></script>
     <script type="text/javascript" src="<%=contextPath %>/js/pinying.js"></script>
     <script type="text/javascript" src="<%=contextPath %>/js/layui/layui.js"></script>
-     <%-- <script type="text/javascript" src="<%=contextPath %>/js/LodopFuncs.js"></script> --%>
-    <%-- <script type="text/javascript" src="<%=contextPath %>/js/layui/layui.all.js"></script> --%>
+      <script type="text/javascript" src="<%=contextPath %>/js/LodopFuncs.js"></script>
+     <script type="text/javascript" src="<%=contextPath %>/js/layui/layui.all.js"></script>
 
     <script src="<%=contextPath %>/js/chosen.jquery.min.js?t=<%=version %>" type="text/javascript"></script>
     <link rel="stylesheet" href="<%=contextPath %>/css/chosen.css?t=<%=version %>" />
