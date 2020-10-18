@@ -63,6 +63,7 @@
 		   </sysMenu>
 		   <sysMenu menuCode="USER_03" menuName="用户列表增删改管理">
 			   <sysMenu menuCode="USER_03_01" menuName="用户列表增删改管理" menuUrl="db/userMessageManager/toList.do"/>
+<!--			   <sysMenu menuCode="USER_03_01" menuName="用户列表增删改管理" menuUrl="db/userMessageManager/toList.do"/>-->
 		   </sysMenu>
 	   </sysMenu>
 	    <!--用户管理模块结束-->
@@ -71,8 +72,8 @@
 	   <sysMenu menuCode="DATA" menuType="module" menuName="数据管理模块" menuIcon="images/icon04.png">
 
 		   <sysMenu menuCode="DATA_01" menuName="数据库管理">
-			   <sysMenu menuCode="DATA_01_01" menuName="数据库更新" menuUrl="common/dataBaseBackupAndRecovery/toList.do"/>
-			   <sysMenu menuCode="DATA_01_02" menuName="数据库备份" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="DATA_01_01" menuName="备份、更新" menuUrl="db/dataBaseBackupAndRecovery/toList.do"/>
+
 		   </sysMenu>
 	   </sysMenu>
 	    <!--数据管理模块结束-->
