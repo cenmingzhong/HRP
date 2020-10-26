@@ -26,7 +26,7 @@ public class User extends BaseEntity{
 
     @Column(name="Position_Number")
     @Title("岗位编号")
-    private  Integer positionNumber;
+    private  String positionNumber;
 
 
     @Column(name="Teach_Position_Type")
@@ -36,7 +36,7 @@ public class User extends BaseEntity{
 
     @Column(name="Position_Level")
     @Title("岗位级别")
-    private Integer positionLevel;
+    private String positionLevel;
 
 
     @Column(name="Permission_Number")
@@ -59,11 +59,11 @@ public class User extends BaseEntity{
         this.teacherName = teacherName;
     }
 
-    public Integer getPositionNumber() {
+    public String getPositionNumber() {
         return positionNumber;
     }
 
-    public void setPositionNumber(Integer positionNumber) {
+    public void setPositionNumber(String positionNumber) {
         this.positionNumber = positionNumber;
     }
 
@@ -75,11 +75,11 @@ public class User extends BaseEntity{
         this.teachPositionType = teachPositionType;
     }
 
-    public Integer getPositionLevel() {
+    public String getPositionLevel() {
         return positionLevel;
     }
 
-    public void setPositionLevel(Integer positionLevel) {
+    public void setPositionLevel(String positionLevel) {
         this.positionLevel = positionLevel;
     }
 
@@ -94,7 +94,7 @@ public class User extends BaseEntity{
     public User() {
     }
 
-    public User(String teacherNumber, String teacherName, Integer positionNumber, String teachPositionType, Integer positionLevel, String permissionNumber) {
+    public User(String teacherNumber, String teacherName, String positionNumber, String teachPositionType, String positionLevel, String permissionNumber) {
         this.teacherNumber = teacherNumber;
         this.teacherName = teacherName;
         this.positionNumber = positionNumber;
@@ -106,12 +106,12 @@ public class User extends BaseEntity{
     @Override
     public String toString() {
         return "User{" +
-                "teacherNumber=" + teacherNumber +
+                "teacherNumber='" + teacherNumber + '\'' +
                 ", teacherName='" + teacherName + '\'' +
-                ", positionNumber=" + positionNumber +
+                ", positionNumber='" + positionNumber + '\'' +
                 ", teachPositionType='" + teachPositionType + '\'' +
-                ", positionLevel=" + positionLevel +
-                ", permissionNumber=" + permissionNumber +
+                ", positionLevel='" + positionLevel + '\'' +
+                ", permissionNumber='" + permissionNumber + '\'' +
                 '}';
     }
 }

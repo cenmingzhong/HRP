@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="KPI_SubmitHead">
+    <select id="getSubmitHeadList" resultType="map" parameterType="map">
+        select
+        Submit_Number,
+        submit.Teacher_Number,
+        Submit_Year,
+        WorkloadTypeNumber,
+        Submit_Time,
+        Teacher_Name
+        from
+        KPI_SubmitHead submit
+        left join
+        DB_User db
+        on submit.Teacher_Number = db.Teacher_Number
+        where
+        submit.Teacher_Number=db.Teacher_Number
+        order by
+        Submit_Number
+    </select>
+
+    <select id="getSubmitHeadAndTail" resultType="map" parameterType="map">
+         select
+         Head.Submit_Number,
+        Head.Teacher_Number,
+        Submit_Year,
+        WorkloadTypeNumber,
+        Submit_Time,
+        Teacher_Name,
+        Tail_Submit_Number,
+        Grade_Score,
+        Grade_Task_Number,
+        Supporting_Material
+        from
+        KPI_SubmitHead Head
+        left join KPI_SubmitTail Tail
+        on Head.Submit_Number = Tail.Submit_Number
+         left join
+        DB_User db
+        on Head.Teacher_Number = db.Teacher_Number
+        WHERE Head.Submit_Number=#{submitNumber}
+        order by
+        Head.Submit_Number
+    </select>
+
+</mapper>

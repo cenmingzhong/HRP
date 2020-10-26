@@ -47,6 +47,7 @@ public class VouchTableAction extends BaseAction {
     @ResponseBody
     @RequestMapping("getVouchTableInfo")
     public ResultView getVouchTableInfo(String vouchId) {
+
         return vouchTableService.getVouchTableInfo(vouchId);
     }
 

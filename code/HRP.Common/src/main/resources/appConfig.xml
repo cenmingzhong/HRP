@@ -82,7 +82,7 @@
 	   <sysMenu menuCode="KPIM" menuType="module" menuName="绩效管理模块" menuIcon="images/icon04.png">
 
 		   <sysMenu menuCode="KPIM_01" menuName="教师">
-			   <sysMenu menuCode="KPIM_01_01" menuName="绩点提交管理" menuUrl="kpi/setting/workloadType/toList.do"/>
+			   <sysMenu menuCode="KPIM_01_01" menuName="绩点提交管理" menuUrl="kpi/gradeSubmitManager/toList.do"/>
 			   <sysMenu menuCode="KPIM_01_02" menuName="绩点查看管理" menuUrl="kpi/setting/workloadType/toList.do"/>
 
 		   </sysMenu>

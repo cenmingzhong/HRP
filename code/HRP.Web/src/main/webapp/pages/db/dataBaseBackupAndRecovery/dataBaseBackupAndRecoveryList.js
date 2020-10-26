@@ -34,8 +34,9 @@ function backupClick(){
         url: contextPath + "/db/dataBaseUtil/backup.do",
         success: function () {
 
-                debugger
-                // alertSuccess(res.result.message[1]);
+            // console.log(res);
+            debugger
+            // alertSuccess(res.message);
             alertSuccess("备份成功");
 
 

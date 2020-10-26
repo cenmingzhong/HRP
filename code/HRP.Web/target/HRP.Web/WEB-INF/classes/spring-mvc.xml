@@ -15,6 +15,15 @@
 
 <!--    开启mvc注解驱动模式；开启了mvc的开挂模式-->
      <mvc:annotation-driven >
+<!--         <mvc:message-converters register-defaults="true">-->
+<!--            <bean class="org.springframework.http.converter.StringHttpMessageConverter">-->
+<!--                <property name="supportedMediaTypes" value="text/html;charset=UTF-8" />-->
+<!--            </bean>-->
+<!--&lt;!&ndash;             <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">&ndash;&gt;-->
+<!--&lt;!&ndash;                 <property name="supportedMediaTypes" value="application/json;charset=UTF-8" />&ndash;&gt;-->
+<!--&lt;!&ndash;             </bean>&ndash;&gt;-->
+<!--             -->
+<!--         </mvc:message-converters>-->
         <mvc:argument-resolvers>  
             <bean class="com.gzhh.hrp.extension.spring.JsonArgumentResolver"/>  
         </mvc:argument-resolvers>

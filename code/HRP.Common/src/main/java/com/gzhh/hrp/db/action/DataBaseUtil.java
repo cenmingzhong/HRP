@@ -34,7 +34,7 @@ public class DataBaseUtil {
         Properties prop = new Properties();
         Connection conn = null;
         try{
-            InputStream in = new BufferedInputStream(new FileInputStream(request.getSession().getServletContext().getRealPath("/")+"dbConfig.properties"));
+            InputStream in = new BufferedInputStream(new FileInputStream(request.getSession().getServletContext().getRealPath("/")+"dbConfig.properties"));//这个地址在工程目录下
             prop.load(in); //加载属性列表
             in.close();
 
@@ -84,6 +84,7 @@ public class DataBaseUtil {
         String message = "数据库备份失败";
         map.put("success", false);
         map.put("message", message);
+        JSONObject rt=null;
         try {
 
             Properties prop = new Properties();
@@ -105,6 +106,7 @@ public class DataBaseUtil {
             PreparedStatement ps = connection.prepareStatement(s1);
             ps.setString(1,path);
             boolean bl = ps.execute();
+
             if(!bl){
 
 //将生成的备份文件信息写入配置文件中
@@ -115,21 +117,21 @@ public class DataBaseUtil {
                 oFile.close();
                 map.put("success", true);
                 map.put("message", "数据库备份成功");
-                JSONObject rt = new JSONObject(map);
+                 rt= new JSONObject(map);
                 response.getWriter().write(rt.toString());
 
             }
         } catch (Exception e) {
             map.put("success", false);
             map.put("message", "数据库备份异常");
-            JSONObject rt = new JSONObject(map);
+            rt = new JSONObject(map);
             response.getWriter().write(rt.toString());
             e.printStackTrace();
         }
 
-        resultView.putData("result",map);
-
-
+//        resultView.putData("result",rt);
+//
+//        return resultView;
 
     }
 

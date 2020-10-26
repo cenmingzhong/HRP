@@ -61,6 +61,8 @@ function loadData(teacherNumber) {
 }
 function saveSetting() {
     var params = $("#infoForm").form2json();
+    debugger
+    console.log(params)
     if (isEdit) {
         params.isUpdate = true;
     }
@@ -68,10 +70,11 @@ function saveSetting() {
         params.isNew = true;
     }
     user = $.extend(user, params);
+    var p=JSON.stringify(params);
     ajaxSubmit({
         url: contextPath + "/db/userMessageManager/save.do",
         data: {
-            user: JSON.stringify(params)
+            user: p
         },
         formId: "infoForm",
         beforeSend: function () {
